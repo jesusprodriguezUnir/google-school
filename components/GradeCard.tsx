@@ -1,7 +1,6 @@
 import React from 'react';
-import { ProgressCircle, Badge, SparkAreaChart } from '@tremor/react';
+import { ProgressCircle, SparkAreaChart } from '@tremor/react';
 import {
-    Trophy,
     Flame,
     TrendingUp,
     AlertTriangle,
@@ -21,10 +20,11 @@ export const GradeCard: React.FC<Props> = ({ grade }) => {
 
     const color = isHigh ? 'emerald' : isMid ? 'amber' : 'rose';
 
-    // Mock sparkline data
+    // Mock sparkline data to simulate historical performance.
+    // The scores are generated relative to the current grade to create a trend for the sparkline chart.
     const sparklineData = [
-        { date: 'Quiz 1', score: grade.score - 2 > 0 ? grade.score - 2 : 1 },
-        { date: 'Midterm', score: grade.score - 1 > 0 ? grade.score - 1 : 2 },
+        { date: 'Quiz 1', score: Math.max(0, grade.score - 2) },
+        { date: 'Midterm', score: Math.max(0, grade.score - 1) },
         { date: 'Project', score: grade.score + 0.5 },
         { date: 'Final', score: grade.score },
     ];
@@ -32,7 +32,13 @@ export const GradeCard: React.FC<Props> = ({ grade }) => {
     return (
         <div className="relative overflow-hidden rounded-2xl bg-white/40 backdrop-blur-md border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 p-5 group">
             {/* Decorative gradient blob */}
-            <div className={`absolute -top-10 -right-10 w-32 h-32 bg-${color}-400/20 rounded-full blur-3xl group-hover:bg-${color}-400/30 transition-all`}></div>
+            <div
+                className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl transition-all ${
+                    isHigh ? 'bg-emerald-400/20 group-hover:bg-emerald-400/30' :
+                    isMid ? 'bg-amber-400/20 group-hover:bg-amber-400/30' :
+                    'bg-rose-400/20 group-hover:bg-rose-400/30'
+                }`}
+            ></div>
 
             <div className="flex justify-between items-start z-10 relative">
                 <div>
@@ -56,7 +62,11 @@ export const GradeCard: React.FC<Props> = ({ grade }) => {
                             color={color as any}
                             strokeWidth={6}
                         >
-                            <span className={`text-sm font-bold text-${color}-600`}>{grade.score}</span>
+                            <span className={`text-sm font-bold ${
+                                isHigh ? 'text-emerald-600' :
+                                isMid ? 'text-amber-600' :
+                                'text-rose-600'
+                            }`}>{grade.score}</span>
                         </ProgressCircle>
                         {/* Floating Icon */}
                         <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm border border-gray-100">

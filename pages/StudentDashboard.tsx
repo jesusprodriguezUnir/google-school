@@ -25,13 +25,17 @@ export const StudentDashboard: React.FC = () => {
   const myClassId = (currentUser as any).classId;
   const myClass = data.classes.find(c => c.id === myClassId);
 
-  // Announcements logic
-  const allAnnouncements = data.announcements.filter(a =>
-    !a.targetClassId || a.targetClassId === myClassId
-  ).map((a, i) => ({
-    ...a,
-    type: i === 0 ? 'URGENT' : i === 1 ? 'EVENT' : 'INFO'
-  }));
+  // Announcements logic with proper type assignment
+  const allAnnouncements = useMemo(() => {
+    return data.announcements.filter(a =>
+      !a.targetClassId || a.targetClassId === myClassId
+    ).map((a) => ({
+      ...a,
+      // Type could be derived from announcement properties in a real app
+      type: a.title.toLowerCase().includes('urgent') ? 'URGENT' :
+            a.title.toLowerCase().includes('event') ? 'EVENT' : 'INFO'
+    }));
+  }, [data.announcements, myClassId]);
 
   const filteredAnnouncements = useMemo(() => {
     return allAnnouncements.filter(a =>
@@ -44,15 +48,18 @@ export const StudentDashboard: React.FC = () => {
     ? (myGrades.reduce((acc, curr) => acc + curr.score, 0) / myGrades.length).toFixed(1)
     : '0.0';
 
-  const randomQuote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
+  const randomQuote = useMemo(
+    () => MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)],
+    []
+  );
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-6 relative overflow-hidden">
       {/* Background Ambient Mesh */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-400/20 rounded-full blur-[120px] animate-pulse-slow"></div>
-        <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[120px] animate-pulse-slow delay-1000"></div>
-        <div className="absolute bottom-[-10%] left-[20%] w-[60%] h-[60%] bg-indigo-400/10 rounded-full blur-[100px] animate-pulse-slow delay-2000"></div>
+        <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-[-10%] left-[20%] w-[60%] h-[60%] bg-indigo-400/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto space-y-8">
@@ -61,7 +68,7 @@ export const StudentDashboard: React.FC = () => {
         <div className="relative rounded-3xl overflow-hidden p-8 text-white shadow-2xl group transition-all hover:scale-[1.01] duration-500">
           {/* Complex Mesh Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-500"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-[url('/assets/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
 
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
@@ -96,6 +103,8 @@ export const StudentDashboard: React.FC = () => {
                 <button
                   onClick={() => setIsScheduleOpen(true)}
                   className="text-xs bg-white/50 hover:bg-white text-indigo-600 px-3 py-1.5 rounded-full font-bold shadow-sm backdrop-blur-md transition-all flex items-center gap-1"
+                  aria-label="View weekly schedule"
+                  aria-expanded={isScheduleOpen}
                 >
                   <Calendar size={12} />
                   View Schedule
@@ -147,12 +156,11 @@ export const StudentDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-6 overflow-y-auto max-h-[600px] custom-scrollbar pr-2">
+              <div className="space-y-6 overflow-y-auto max-h-[600px] scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100 pr-2">
                 {filteredAnnouncements.length > 0 ? (
                   filteredAnnouncements.map((ann, idx) => (
-                    <div key={ann.id} className="relative pl-4 border-l-2 border-indigo-100 hover:border-indigo-400 transition-colors py-1 group cursor-pointer">
-                      <span className={`absolute -left-[5px] top-1.5 w-2 h-2 rounded-full border-2 border-white ${ann.type === 'URGENT' ? 'bg-red-500' : ann.type === 'EVENT' ? 'bg-blue-500' : 'bg-gray-400'
-                        } group-hover:scale-125 transition-transform`}></span>
+                    <div key={ann.id} className="relative pl-4 border-l-2 border-indigo-100 py-1 group">
+                      <span className={`absolute -left-[5px] top-1.5 w-2 h-2 rounded-full border-2 border-white ${ann.type === 'URGENT' ? 'bg-red-500' : ann.type === 'EVENT' ? 'bg-blue-500' : 'bg-gray-400'}`}></span>
 
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">{ann.date}</span>
@@ -163,7 +171,7 @@ export const StudentDashboard: React.FC = () => {
                           {ann.type}
                         </span>
                       </div>
-                      <h4 className="font-bold text-gray-800 text-sm mb-1 group-hover:text-indigo-600 transition-colors">{ann.title}</h4>
+                      <h4 className="font-bold text-gray-800 text-sm mb-1">{ann.title}</h4>
                       <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed">{ann.content}</p>
                     </div>
                   ))

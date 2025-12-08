@@ -20,20 +20,24 @@ export const HomeworkWidget: React.FC = () => {
                     <CheckSquare className="text-indigo-500" size={18} />
                     My Tasks
                 </h3>
-                <button className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-indigo-600">
+                <button
+                    className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-indigo-600"
+                    aria-label="Add new task"
+                >
                     <Plus size={18} />
                 </button>
             </div>
 
-            <div className="space-y-3 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+            <div className="space-y-3 flex-1 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
                 {tasks.map(task => (
-                    <div
+                    <button
                         key={task.id}
                         onClick={() => toggleTask(task.id)}
-                        className={`group flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer border ${task.completed
+                        className={`group flex items-center gap-3 p-3 rounded-xl transition-all w-full text-left border ${task.completed
                                 ? 'bg-gray-50/50 border-transparent opacity-60'
                                 : 'bg-white border-indigo-50 hover:border-indigo-200 hover:shadow-sm'
                             }`}
+                        aria-label={`${task.completed ? 'Mark as incomplete' : 'Mark as complete'}: ${task.text}`}
                     >
                         <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${task.completed ? 'bg-indigo-500 border-indigo-500' : 'border-gray-300 group-hover:border-indigo-400'
                             }`}>
@@ -48,7 +52,7 @@ export const HomeworkWidget: React.FC = () => {
                             }`}>
                             {task.due}
                         </span>
-                    </div>
+                    </button>
                 ))}
             </div>
 

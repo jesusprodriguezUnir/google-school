@@ -12,6 +12,7 @@ export const WeeklySchedule: React.FC<WeeklyScheduleProps> = ({ isOpen, onClose 
     // Mock Schedule Data
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const times = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
+    const HOUR_HEIGHT_REM = 5; // Height in rem units per hour slot
 
     const scheduleData: Record<string, { subject: string; room: string; color: string; start: number; duration: number }[]> = {
         'Monday': [
@@ -72,7 +73,11 @@ export const WeeklySchedule: React.FC<WeeklyScheduleProps> = ({ isOpen, onClose 
                                         <Clock className="text-indigo-500" />
                                         Weekly Schedule
                                     </Dialog.Title>
-                                    <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full text-gray-500 transition-colors">
+                                    <button
+                                        onClick={onClose}
+                                        className="p-2 hover:bg-black/5 rounded-full text-gray-500 transition-colors"
+                                        aria-label="Close weekly schedule"
+                                    >
                                         <X size={20} />
                                     </button>
                                 </div>
@@ -99,8 +104,17 @@ export const WeeklySchedule: React.FC<WeeklyScheduleProps> = ({ isOpen, onClose 
                                                         key={idx}
                                                         className={`absolute w-full rounded-lg p-3 shadow-sm border border-black/5 ${cls.color} hover:scale-[1.02] transition-transform cursor-pointer`}
                                                         style={{
-                                                            top: `${cls.start * 5}rem`, // 1 hour = 5rem (h-20)
-                                                            height: `${cls.duration * 5 - 0.5}rem` // taking off a bit for gap
+                                                            top: `${cls.start * HOUR_HEIGHT_REM}rem`,
+                                                            height: `${cls.duration * HOUR_HEIGHT_REM - 0.5}rem`
+                                                        }}
+                                                        role="button"
+                                                        tabIndex={0}
+                                                        aria-label={`${cls.subject} in ${cls.room} at ${times[cls.start]}`}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                                e.preventDefault();
+                                                                // Add click handler logic here if needed
+                                                            }
                                                         }}
                                                     >
                                                         <p className="font-bold text-sm truncate">{cls.subject}</p>
