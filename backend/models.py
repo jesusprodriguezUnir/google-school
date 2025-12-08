@@ -22,6 +22,11 @@ class InvoiceType(str, enum.Enum):
     TRANSPORT = 'School Bus'
     EXTRA = 'Extracurricular'
 
+class EducationLevel(str, enum.Enum):
+    INFANTIL = 'Infantil'
+    PRIMARIA = 'Primaria'
+    SECUNDARIA = 'Secundaria'
+
 # Association Table for Parent <-> Student (Many-to-Many)
 parent_student_association = Table(
     'parent_student',
@@ -69,6 +74,7 @@ class ClassGroup(Base):
 
     id = Column(String, primary_key=True, index=True)
     name = Column(String)
+    level = Column(Enum(EducationLevel), default=EducationLevel.PRIMARIA)
     teacher_id = Column(String, ForeignKey("users.id"))
 
     teacher = relationship("User", foreign_keys=[teacher_id], back_populates="teaching_classes")

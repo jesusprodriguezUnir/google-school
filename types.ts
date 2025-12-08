@@ -42,9 +42,16 @@ export interface Parent extends User {
   childrenIds: string[];
 }
 
+export enum EducationLevel {
+  INFANTIL = 'Infantil',
+  PRIMARIA = 'Primaria',
+  SECUNDARIA = 'Secundaria',
+}
+
 export interface ClassGroup {
   id: string;
   name: string; // e.g., "1A", "2B"
+  level: EducationLevel;
   teacherId: string;
 }
 

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional, Union
-from .models import UserRole, InvoiceStatus, InvoiceType
+from .models import UserRole, InvoiceStatus, InvoiceType, EducationLevel
 
 class Token(BaseModel):
     access_token: str
@@ -53,6 +53,7 @@ class AnnouncementResponse(AnnouncementBase):
 
 class ClassGroupBase(BaseModel):
     name: str
+    level: EducationLevel
 
 class ClassGroupResponse(ClassGroupBase):
     id: str

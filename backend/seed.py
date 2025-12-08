@@ -2,7 +2,7 @@ import random
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine, Base
-from .models import User, UserRole, ClassGroup, Grade, Invoice, InvoiceStatus, InvoiceType, Announcement, parent_student_association
+from .models import User, UserRole, ClassGroup, Grade, Invoice, InvoiceStatus, InvoiceType, Announcement, parent_student_association, EducationLevel
 from .auth_utils import get_password_hash
 
 # --- Data Arrays from dataGenerator.ts ---
@@ -80,7 +80,8 @@ def seed_data():
     db.commit()
 
     print("Creating Random Teachers...")
-    for i in range(6):
+    # Create 30 teachers to ensure coverage
+    for i in range(30):
         name = generate_name()
         teacher = User(
             id=f'u_teacher_{i}',
@@ -95,25 +96,55 @@ def seed_data():
     db.commit()
 
     print("Creating Classes...")
-    class_names = ["1º ESO A", "1º ESO B", "2º ESO A"]
     classes = []
-    for idx, name in enumerate(class_names):
-        teacher_idx = 0 if idx == 1 else idx # Logic from TS: Class 0->T0, Class 1->T0, Class 2->T1
-        
-        cls = ClassGroup(
-            id=f'class_{idx}',
-            name=name,
-            teacher_id=teachers[teacher_idx].id
-        )
-        classes.append(cls)
-        db.add(cls)
+    
+    # Full School Structure
+    # Infantil: 3, 4, 5 years
+    # Primaria: 1st to 6th
+    # Secundaria: 1st to 4th
+    
+    structure = [
+        ("Infantil 3 años", EducationLevel.INFANTIL),
+        ("Infantil 4 años", EducationLevel.INFANTIL),
+        ("Infantil 5 años", EducationLevel.INFANTIL),
+        ("1º Primaria", EducationLevel.PRIMARIA),
+        ("2º Primaria", EducationLevel.PRIMARIA),
+        ("3º Primaria", EducationLevel.PRIMARIA),
+        ("4º Primaria", EducationLevel.PRIMARIA),
+        ("5º Primaria", EducationLevel.PRIMARIA),
+        ("6º Primaria", EducationLevel.PRIMARIA),
+        ("1º ESO", EducationLevel.SECUNDARIA),
+        ("2º ESO", EducationLevel.SECUNDARIA),
+        ("3º ESO", EducationLevel.SECUNDARIA),
+        ("4º ESO", EducationLevel.SECUNDARIA),
+    ]
+
+    class_cnt = 0
+    for grade_name, level in structure:
+        # Create Group A and Group B for each grade
+        for group in ["A", "B"]:
+            class_name = f"{grade_name} {group}"
+            
+            # Assign a teacher (cycle through them)
+            teacher = teachers[class_cnt % len(teachers)]
+            
+            class_group = ClassGroup(
+                id=f'class_{class_cnt}',
+                name=class_name,
+                level=level,
+                teacher_id=teacher.id
+            )
+            db.add(class_group)
+            classes.append(class_group)
+            class_cnt += 1
+    
     db.commit()
 
     print("Creating Students & Parents...")
     student_count = 0
     for cls in classes:
-        # Create 20 students per class
-        for i in range(20):
+        # Create 10 students per class (Requested by user)
+        for i in range(10):
             student_count += 1
             s_name = generate_name()
             s_id = f'u_student_{student_count}'
@@ -149,20 +180,18 @@ def seed_data():
             db.add(student)
             
             # Grades
-            subjects = ["Matemáticas", "Lengua", "Historia"]
-            class_idx = int(cls.id.split('_')[1])
+            subjects = ["Matemáticas", "Lengua", "Historia", "Ciencias", "Inglés"]
             
             for sub_idx, sub in enumerate(subjects):
-                base_score = random.randint(5, 10)
-                if class_idx == 1: base_score = min(10, base_score + 1)
-                if class_idx == 2: base_score = max(1, base_score - 2)
+                # Randomize scores a bit
+                base_score = random.randint(4, 10) 
                 
                 grade = Grade(
                     id=f'grade_{s_id}_{sub_idx}',
                     student_id=s_id,
                     subject=sub,
                     score=float(min(10, max(1, base_score))),
-                    feedback=get_random_element(["Buen trabajo", "Puede mejorar", "Excelente", "Necesita repasar"]),
+                    feedback=get_random_element(["Buen trabajo", "Puede mejorar", "Excelente", "Necesita repasar", "Progresa adecuadamente"]),
                     date=datetime.now().date().isoformat()
                 )
                 db.add(grade)
@@ -170,18 +199,20 @@ def seed_data():
             # Invoices
             inv_types = [InvoiceType.DINING, InvoiceType.TRANSPORT, InvoiceType.EXTRA]
             for inv_idx, type in enumerate(inv_types):
-                amount = 120 if type == InvoiceType.DINING else 85 if type == InvoiceType.TRANSPORT else 45
-                invoice = Invoice(
-                    id=f'inv_{s_id}_{inv_idx}',
-                    parent_id=p1_id,
-                    student_id=s_id,
-                    amount=amount,
-                    currency='EUR',
-                    status=InvoiceStatus.PENDING if random.random() > 0.7 else InvoiceStatus.PAID,
-                    type=type,
-                    due_date='2025-12-01'
-                )
-                db.add(invoice)
+                # Only some students have these services
+                if random.random() > 0.6: 
+                    amount = 120 if type == InvoiceType.DINING else 85 if type == InvoiceType.TRANSPORT else 45
+                    invoice = Invoice(
+                        id=f'inv_{s_id}_{inv_idx}',
+                        parent_id=p1_id,
+                        student_id=s_id,
+                        amount=amount,
+                        currency='EUR',
+                        status=InvoiceStatus.PENDING if random.random() > 0.7 else InvoiceStatus.PAID,
+                        type=type,
+                        due_date='2025-12-01'
+                    )
+                    db.add(invoice)
 
     # Announcements
     ann1 = Announcement(
@@ -192,11 +223,13 @@ def seed_data():
     db.add(ann1)
 
     for cls in classes:
-        ann = Announcement(
-            id=f'ann_{cls.id}', author_id=cls.teacher_id, title=f'Excursión de {cls.name}',
-            content='Traer autorización.', date='2025-10-15', target_class_id=cls.id
-        )
-        db.add(ann)
+        # Create announcements for some classes
+        if random.random() > 0.5:
+            ann = Announcement(
+                id=f'ann_{cls.id}', author_id=cls.teacher_id, title=f'Excursión de {cls.name}',
+                content='Traer autorización firmada y ropa cómoda.', date='2025-10-15', target_class_id=cls.id
+            )
+            db.add(ann)
 
     db.commit()
     db.close()
