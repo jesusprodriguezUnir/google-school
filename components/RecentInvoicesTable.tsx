@@ -39,7 +39,7 @@ export const RecentInvoicesTable: React.FC<Props> = ({ invoices, users }) => {
             },
             {
                 accessorFn: (row) => {
-                    const student = users.find((u) => u.id === row.studentId);
+                    const student = users.find((u) => u.id === row.student_id);
                     return student?.name || 'Unknown';
                 },
                 id: 'studentName',

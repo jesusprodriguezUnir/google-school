@@ -55,28 +55,6 @@ def seed_data():
     )
     db.add(demo_teacher)
     teachers.append(demo_teacher)
-    
-    # 2. Demo Parent & Student matching Login.tsx
-    demo_p_id = 'u_parent_demo'
-    demo_s_id = 'u_student_demo'
-    
-    demo_parent = User(
-        id=demo_p_id, name='María Torres', email='maria.torres.parent@googleschool.demo',
-        hashed_password=get_password_hash('password'), role=UserRole.PARENT,
-        avatar='https://picsum.photos/200/200?random=98'
-    )
-    demo_student = User(
-        id=demo_s_id, name='Victoria Torres', email='victoria.torres.student@googleschool.demo',
-        hashed_password=get_password_hash('password'), role=UserRole.STUDENT,
-        class_id='class_0', # Assign to first class
-        avatar='https://picsum.photos/200/200?random=97'
-    )
-    
-    db.add(demo_parent)
-    db.add(demo_student)
-    demo_student.parents.append(demo_parent)
-    
-    # Add some demo grades/invoices for them
     db.commit()
 
     print("Creating Random Teachers...")
@@ -230,6 +208,29 @@ def seed_data():
                 content='Traer autorización firmada y ropa cómoda.', date='2025-10-15', target_class_id=cls.id
             )
             db.add(ann)
+
+    # --- Create Demo Parent & Student (Moved here to ensure class exists) ---
+    print("Creating Demo Student & Parent...")
+    demo_p_id = 'u_parent_demo'
+    demo_s_id = 'u_student_demo'
+    
+    demo_parent = User(
+        id=demo_p_id, name='María Torres', email='maria.torres.parent@googleschool.demo',
+        hashed_password=get_password_hash('password'), role=UserRole.PARENT,
+        avatar='https://picsum.photos/200/200?random=98'
+    )
+    # Assign to first created class (class_0)
+    demo_student = User(
+        id=demo_s_id, name='Victoria Torres', email='victoria.torres.student@googleschool.demo',
+        hashed_password=get_password_hash('password'), role=UserRole.STUDENT,
+        class_id='class_0', 
+        avatar='https://picsum.photos/200/200?random=97'
+    )
+    
+    db.add(demo_parent)
+    db.add(demo_student)
+    demo_student.parents.append(demo_parent)
+    # -----------------------------------------------------------------------
 
     db.commit()
     db.close()

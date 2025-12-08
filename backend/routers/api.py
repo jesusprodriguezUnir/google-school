@@ -5,7 +5,7 @@ from typing import List
 from .. import models, schemas, database
 from .auth import get_current_user
 
-router = APIRouter(prefix="/api", tags=["Dashboard"])
+router = APIRouter(tags=["Dashboard"])
 
 def get_db():
     db = database.SessionLocal()

@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../services/store';
 import { UserRole, InvoiceStatus } from '../types';
 import { RecentInvoicesTable } from '../components/RecentInvoicesTable';
+import { ClassesWidget } from '../components/ClassesWidget';
 import { AttendanceWidget } from '../components/AttendanceWidget';
 import { CalendarWidget } from '../components/CalendarWidget';
 import {
@@ -217,22 +218,43 @@ export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNaviga
       </Grid>
 
       {/* Tables and Widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Invoices Table (Span 2) */}
-        <div className="lg:col-span-2">
-          <Card className="h-full">
-            <div className="flex justify-between items-center mb-4">
-              <Title>Recent Invoices</Title>
-              <button className="text-sm text-blue-600 font-medium hover:text-blue-700">View All</button>
-            </div>
-            <RecentInvoicesTable invoices={data.invoices} users={data.users} />
-          </Card>
+      import {ClassesWidget} from '../components/ClassesWidget';
+
+      // ... (existing imports)
+
+      // Inside component return:
+      {/* Tables and Widgets */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+        {/* Classes Overview (Span 2 on large screens) */}
+        <div className="xl:col-span-2 h-[500px]">
+          <ClassesWidget
+            classes={data.classes}
+            users={data.users}
+            onManage={() => onNavigate('classes')}
+          />
         </div>
 
         {/* Right Sidebar Widgets */}
         <div className="space-y-6">
           <AttendanceWidget />
           <CalendarWidget />
+        </div>
+
+        {/* Recent Invoices Table (Full width at bottom or Span 3) */}
+        <div className="xl:col-span-3">
+          <Card className="h-full">
+            <div className="flex justify-between items-center mb-4">
+              <Title>Recent Invoices</Title>
+              <button
+                onClick={() => onNavigate('invoices')}
+                className="text-sm text-blue-600 font-medium hover:text-blue-700"
+              >
+                View All
+              </button>
+            </div>
+            <RecentInvoicesTable invoices={data.invoices} users={data.users} />
+          </Card>
         </div>
       </div>
     </div>

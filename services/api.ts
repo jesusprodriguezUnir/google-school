@@ -67,4 +67,23 @@ export const authService = {
 };
 
 // Fix logic in next step if I got the URL wrong.
+export const classService = {
+    getAll: async () => {
+        const response = await api.get('/classes/');
+        return response.data;
+    },
+    create: async (data: any) => {
+        const response = await api.post('/classes/', data);
+        return response.data;
+    },
+    update: async (id: string, data: any) => {
+        const response = await api.put(`/classes/${id}`, data);
+        return response.data;
+    },
+    delete: async (id: string) => {
+        const response = await api.delete(`/classes/${id}`);
+        return response.data;
+    }
+};
+
 export default api;

@@ -55,9 +55,17 @@ class ClassGroupBase(BaseModel):
     name: str
     level: EducationLevel
 
+class ClassGroupCreate(ClassGroupBase):
+    teacher_id: str
+
+class ClassGroupUpdate(BaseModel):
+    name: Optional[str] = None
+    level: Optional[EducationLevel] = None
+    teacher_id: Optional[str] = None
+
 class ClassGroupResponse(ClassGroupBase):
     id: str
-    teacher_id: str
+    teacher_id: Optional[str] = None
 
     class Config:
         from_attributes = True

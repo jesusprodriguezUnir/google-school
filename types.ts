@@ -24,22 +24,23 @@ export interface User {
   email: string;
   role: UserRole;
   avatar: string;
+  class_id?: string; // Added optional class_id for Student
 }
 
 export interface Student extends User {
   role: UserRole.STUDENT;
-  classId: string;
-  parentIds: string[];
+  class_id: string;
+  parent_ids: string[];
 }
 
 export interface Teacher extends User {
   role: UserRole.TEACHER;
-  assignedClassIds: string[];
+  assigned_class_ids: string[];
 }
 
 export interface Parent extends User {
   role: UserRole.PARENT;
-  childrenIds: string[];
+  children_ids: string[];
 }
 
 export enum EducationLevel {
@@ -50,38 +51,38 @@ export enum EducationLevel {
 
 export interface ClassGroup {
   id: string;
-  name: string; // e.g., "1A", "2B"
+  name: string;
   level: EducationLevel;
-  teacherId: string;
+  teacher_id: string;
 }
 
 export interface Grade {
   id: string;
-  studentId: string;
+  student_id: string;
   subject: string;
-  score: number; // 0-10
+  score: number;
   feedback: string;
   date: string;
 }
 
 export interface Invoice {
   id: string;
-  parentId: string;
-  studentId: string;
+  parent_id: string;
+  student_id: string;
   amount: number;
   currency: string;
   status: InvoiceStatus;
   type: InvoiceType;
-  dueDate: string;
+  due_date: string;
 }
 
 export interface Announcement {
   id: string;
-  authorId: string;
+  author_id: string;
   title: string;
   content: string;
   date: string;
-  targetClassId?: string; // If null, global
+  target_class_id?: string;
 }
 
 // Full State for the Mock DB
