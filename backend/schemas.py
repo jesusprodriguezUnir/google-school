@@ -89,6 +89,12 @@ class UserResponse(UserBase):
     class Config:
         from_attributes = True
 
+class StudentUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    class_id: Optional[str] = None
+    avatar: Optional[str] = None
+
 class BootstrapData(BaseModel):
     users: List[UserResponse]
     classes: List[ClassGroupResponse]

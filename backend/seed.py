@@ -31,11 +31,13 @@ def seed_data():
     db = SessionLocal()
     
     print("Creating Principal...")
+    common_password_hash = get_password_hash('password')
+    
     principal = User(
         id='u_principal_01',
         name='Director Roberto Gómez',
         email='director@googleschool.demo',
-        hashed_password=get_password_hash('password'),
+        hashed_password=common_password_hash,
         role=UserRole.PRINCIPAL,
         avatar='https://picsum.photos/200/200?random=1'
     )
@@ -49,7 +51,7 @@ def seed_data():
         id='u_teacher_demo',
         name='Prof. Santiago García García',
         email='prof.santiago.garcia.garcia.prof@googleschool.demo',
-        hashed_password=get_password_hash('password'),
+        hashed_password=common_password_hash,
         role=UserRole.TEACHER,
         avatar='https://picsum.photos/200/200?random=99'
     )
@@ -65,7 +67,7 @@ def seed_data():
             id=f'u_teacher_{i}',
             name=f'Prof. {name}',
             email=generate_email(name, 'prof'),
-            hashed_password=get_password_hash('password'),
+            hashed_password=common_password_hash,
             role=UserRole.TEACHER,
             avatar=f'https://picsum.photos/200/200?random={i+10}'
         )
@@ -121,8 +123,9 @@ def seed_data():
     print("Creating Students & Parents...")
     student_count = 0
     for cls in classes:
-        # Create 10 students per class (Requested by user)
-        for i in range(10):
+        # Create 20-25 students per class (Requested by user)
+        num_students = random.randint(20, 25)
+        for i in range(num_students):
             student_count += 1
             s_name = generate_name()
             s_id = f'u_student_{student_count}'
@@ -134,21 +137,21 @@ def seed_data():
             p2_id = f'u_parent_{student_count}_b'
             
             p1 = User(
-                id=p1_id, name=p1_name, email=generate_email(p1_name, 'parent'),
-                hashed_password=get_password_hash('password'), role=UserRole.PARENT,
+                id=p1_id, name=p1_name, email=generate_email(p1_name, f'parent.{student_count}.a'),
+                hashed_password=common_password_hash, role=UserRole.PARENT,
                 avatar=f'https://picsum.photos/200/200?random={student_count+500}'
             )
             p2 = User(
-                id=p2_id, name=p2_name, email=generate_email(p2_name, 'parent'),
-                hashed_password=get_password_hash('password'), role=UserRole.PARENT,
+                id=p2_id, name=p2_name, email=generate_email(p2_name, f'parent.{student_count}.b'),
+                hashed_password=common_password_hash, role=UserRole.PARENT,
                 avatar=f'https://picsum.photos/200/200?random={student_count+600}'
             )
             db.add(p1)
             db.add(p2)
             
             student = User(
-                id=s_id, name=s_name, email=generate_email(s_name, 'student'),
-                hashed_password=get_password_hash('password'), role=UserRole.STUDENT,
+                id=s_id, name=s_name, email=generate_email(s_name, f'student.{student_count}'),
+                hashed_password=common_password_hash, role=UserRole.STUDENT,
                 class_id=cls.id,
                 avatar=f'https://picsum.photos/200/200?random={student_count+100}'
             )
@@ -216,13 +219,13 @@ def seed_data():
     
     demo_parent = User(
         id=demo_p_id, name='María Torres', email='maria.torres.parent@googleschool.demo',
-        hashed_password=get_password_hash('password'), role=UserRole.PARENT,
+        hashed_password=common_password_hash, role=UserRole.PARENT,
         avatar='https://picsum.photos/200/200?random=98'
     )
     # Assign to first created class (class_0)
     demo_student = User(
         id=demo_s_id, name='Victoria Torres', email='victoria.torres.student@googleschool.demo',
-        hashed_password=get_password_hash('password'), role=UserRole.STUDENT,
+        hashed_password=common_password_hash, role=UserRole.STUDENT,
         class_id='class_0', 
         avatar='https://picsum.photos/200/200?random=97'
     )

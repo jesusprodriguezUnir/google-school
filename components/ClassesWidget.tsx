@@ -47,6 +47,39 @@ export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, on
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                    </div>
-                    );
+                        {classes.length > 0 ? (
+                            classes.map((cls) => (
+                                <tr key={cls.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="p-4 font-medium text-gray-900">{cls.name}</td>
+                                    <td className="p-4 text-gray-600">{cls.level || 'N/A'}</td>
+                                    <td className="p-4 text-gray-600">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
+                                                {getTeacherName(cls.teacher_id).charAt(0)}
+                                            </div>
+                                            <span className="truncate max-w-[120px]" title={getTeacherName(cls.teacher_id)}>
+                                                {getTeacherName(cls.teacher_id)}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td className="p-4 text-gray-600 text-right">
+                                        <div className="flex items-center justify-end gap-1">
+                                            <Users size={14} className="text-gray-400" />
+                                            <span>{getStudentCount(cls.id)}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="p-8 text-center text-gray-400">
+                                    No classes found. Click "Manage Classes" to add one.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 };
