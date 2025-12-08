@@ -102,20 +102,12 @@ export const WeeklySchedule: React.FC<WeeklyScheduleProps> = ({ isOpen, onClose 
                                                 {scheduleData[day]?.map((cls, idx) => (
                                                     <div
                                                         key={idx}
-                                                        className={`absolute w-full rounded-lg p-3 shadow-sm border border-black/5 ${cls.color} hover:scale-[1.02] transition-transform cursor-pointer`}
+                                                        className={`absolute w-full rounded-lg p-3 shadow-sm border border-black/5 ${cls.color}`}
                                                         style={{
                                                             top: `${cls.start * HOUR_HEIGHT_REM}rem`,
                                                             height: `${cls.duration * HOUR_HEIGHT_REM - 0.5}rem`
                                                         }}
-                                                        role="button"
-                                                        tabIndex={0}
                                                         aria-label={`${cls.subject} in ${cls.room} at ${times[cls.start]}`}
-                                                        onKeyDown={(e) => {
-                                                            if (e.key === 'Enter' || e.key === ' ') {
-                                                                e.preventDefault();
-                                                                // Add click handler logic here if needed
-                                                            }
-                                                        }}
                                                     >
                                                         <p className="font-bold text-sm truncate">{cls.subject}</p>
                                                         <p className="text-xs opacity-80">{cls.room}</p>

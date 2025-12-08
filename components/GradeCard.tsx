@@ -22,9 +22,11 @@ export const GradeCard: React.FC<Props> = ({ grade }) => {
 
     // Mock sparkline data to simulate historical performance.
     // The scores are generated relative to the current grade to create a trend for the sparkline chart.
+    const QUIZ_SCORE_OFFSET = 2;
+    const MIDTERM_SCORE_OFFSET = 1;
     const sparklineData = [
-        { date: 'Quiz 1', score: Math.max(0, grade.score - 2) },
-        { date: 'Midterm', score: Math.max(0, grade.score - 1) },
+        { date: 'Quiz 1', score: Math.max(0, grade.score - QUIZ_SCORE_OFFSET) },
+        { date: 'Midterm', score: Math.max(0, grade.score - MIDTERM_SCORE_OFFSET) },
         { date: 'Project', score: grade.score + 0.5 },
         { date: 'Final', score: grade.score },
     ];
