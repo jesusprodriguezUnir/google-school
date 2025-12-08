@@ -13,15 +13,12 @@ import {
   Flex,
   BadgeDelta,
   AreaChart,
-  BarChart,
-  ProgressBar
+  BarChart
 } from '@tremor/react';
 import {
   Users,
   BookOpen,
-  CreditCard,
   TrendingUp,
-  TrendingDown,
   AlertCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -32,6 +29,14 @@ interface PrincipalDashboardProps {
 
 export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNavigate = () => { } }) => {
   const { data } = useApp();
+
+  // Color class mapping for Tailwind CSS
+  const colorClasses: Record<string, { bg: string; text: string }> = {
+    blue: { bg: 'bg-blue-100', text: 'text-blue-600' },
+    indigo: { bg: 'bg-indigo-100', text: 'text-indigo-600' },
+    amber: { bg: 'bg-amber-100', text: 'text-amber-600' },
+    emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600' }
+  };
 
   // --- KPI Calculations ---
   const students = data.users.filter(u => u.role === UserRole.STUDENT);
@@ -142,7 +147,7 @@ export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNaviga
             decorationColor={item.color as any}
           >
             <Flex justifyContent="start" className="space-x-4">
-              <div className={`p-2 rounded-tremor-default bg-${item.color}-100 text-${item.color}-600`}>
+              <div className={`p-2 rounded-tremor-default ${colorClasses[item.color]?.bg || 'bg-gray-100'} ${colorClasses[item.color]?.text || 'text-gray-600'}`}>
                 <item.icon className="h-6 w-6" />
               </div>
               <div>
