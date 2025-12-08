@@ -114,7 +114,11 @@ export const InteractiveGradeCard: React.FC<Props> = ({ grade }) => {
                                             </h4>
                                             <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
                                                 <p className="font-bold text-amber-900 text-sm">Unit 4 Test</p>
-                                                <p className="text-xs text-amber-700">Friday, Oct 22</p>
+                                                <p className="text-xs text-amber-700">{(() => {
+                                                    const date = new Date();
+                                                    date.setDate(date.getDate() + 10);
+                                                    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                                                })()}</p>
                                             </div>
                                         </div>
 

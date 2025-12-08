@@ -148,7 +148,7 @@ export const generateSchoolData = (): SchoolData => {
           currency: 'EUR',
           status: Math.random() > 0.7 ? InvoiceStatus.PENDING : InvoiceStatus.PAID,
           type: type,
-          dueDate: '2023-12-01'
+          dueDate: '2025-12-01'
         });
       });
     }
@@ -160,7 +160,7 @@ export const generateSchoolData = (): SchoolData => {
     authorId: principal.id,
     title: 'Bienvenida al Curso 2024-2025',
     content: 'Esperamos que este nuevo año escolar esté lleno de aprendizaje y crecimiento para todos.',
-    date: '2023-09-01'
+    date: '2025-09-01'
   });
 
   classes.forEach(cls => {
@@ -169,7 +169,7 @@ export const generateSchoolData = (): SchoolData => {
       authorId: cls.teacherId,
       title: `Excursión de ${cls.name}`,
       content: 'Recordad traer la autorización firmada para la visita al museo.',
-      date: '2023-10-15',
+      date: '2025-10-15',
       targetClassId: cls.id
     });
   });
@@ -206,19 +206,19 @@ export const generateSchoolData = (): SchoolData => {
 
   // Add Demo Grades for both
   const demoGrades = [
-    { id: 'g_d1_1', studentId: demoStudent1.id, subject: 'Matemáticas', score: 9, feedback: 'Excelente trabajo', date: '2023-11-01' },
-    { id: 'g_d1_2', studentId: demoStudent1.id, subject: 'Historia', score: 7, feedback: 'Buen progreso', date: '2023-11-02' },
-    { id: 'g_d2_1', studentId: demoStudent2.id, subject: 'Ciencias', score: 6, feedback: 'Necesita mejorar en lab', date: '2023-11-01' },
-    { id: 'g_d2_2', studentId: demoStudent2.id, subject: 'Inglés', score: 8, feedback: 'Very good!', date: '2023-11-03' },
+    { id: 'g_d1_1', studentId: demoStudent1.id, subject: 'Matemáticas', score: 9, feedback: 'Excelente trabajo', date: '2025-11-01' },
+    { id: 'g_d1_2', studentId: demoStudent1.id, subject: 'Historia', score: 7, feedback: 'Buen progreso', date: '2025-11-02' },
+    { id: 'g_d2_1', studentId: demoStudent2.id, subject: 'Ciencias', score: 6, feedback: 'Necesita mejorar en lab', date: '2025-11-01' },
+    { id: 'g_d2_2', studentId: demoStudent2.id, subject: 'Inglés', score: 8, feedback: 'Very good!', date: '2025-11-03' },
   ];
   grades.push(...demoGrades);
 
   // Add Demo Invoices
   invoices.push({
-    id: 'inv_demo_1', parentId: demoParent.id, studentId: demoStudent1.id, amount: 120, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.DINING, dueDate: '2023-12-05'
+    id: 'inv_demo_1', parentId: demoParent.id, studentId: demoStudent1.id, amount: 120, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.DINING, dueDate: '2025-12-05'
   });
   invoices.push({
-    id: 'inv_demo_2', parentId: demoParent.id, studentId: demoStudent2.id, amount: 85, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.TRANSPORT, dueDate: '2023-12-10'
+    id: 'inv_demo_2', parentId: demoParent.id, studentId: demoStudent2.id, amount: 85, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.TRANSPORT, dueDate: '2025-12-10'
   });
 
   // Prepend to users so they are picked up by the Login Demo buttons
