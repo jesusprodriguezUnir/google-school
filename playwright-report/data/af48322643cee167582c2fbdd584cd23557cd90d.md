@@ -1,0 +1,805 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - img [ref=e7]
+        - generic [ref=e12]:
+          - heading "NextGen School" [level=1] [ref=e13]
+          - paragraph [ref=e14]: Demo App
+      - navigation [ref=e15]:
+        - button "Overview" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - text: Overview
+        - button "Students" [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+          - text: Students
+        - button "Teachers" [ref=e28] [cursor=pointer]:
+          - img [ref=e29]
+          - text: Teachers
+        - button "Parents" [ref=e32] [cursor=pointer]:
+          - img [ref=e33]
+          - text: Parents
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - img "User" [ref=e37]
+          - generic [ref=e38]:
+            - paragraph [ref=e39]: Director Roberto Gómez
+            - paragraph [ref=e40]: principal
+        - button "Sign Out" [ref=e41] [cursor=pointer]:
+          - img [ref=e42]
+          - text: Sign Out
+    - main [ref=e45]:
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - heading "Student Directory" [level=2] [ref=e50]
+          - paragraph [ref=e51]: Managing 62 students across 3 classes
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - img [ref=e55]
+              - textbox "Search by name or email..." [ref=e58]
+            - generic [ref=e59]:
+              - img [ref=e60]
+              - generic [ref=e62]: "Class:"
+              - generic [ref=e63]:
+                - button "All" [ref=e64] [cursor=pointer]
+                - button "1º ESO A" [ref=e65] [cursor=pointer]
+                - button "1º ESO B" [ref=e66] [cursor=pointer]
+                - button "2º ESO A" [ref=e67] [cursor=pointer]
+          - table [ref=e69]:
+            - rowgroup [ref=e70]:
+              - row "Student Class Email Actions" [ref=e71]:
+                - columnheader "Student" [ref=e72]
+                - columnheader "Class" [ref=e73]
+                - columnheader "Email" [ref=e74]
+                - columnheader "Actions" [ref=e75]
+            - rowgroup [ref=e76]:
+              - row "Victoria Torres 1º ESO A victoria.student@googleschool.demo" [ref=e77]:
+                - cell "Victoria Torres" [ref=e78]:
+                  - generic [ref=e80]: Victoria Torres
+                - cell "1º ESO A" [ref=e81]:
+                  - generic [ref=e82]: 1º ESO A
+                - cell "victoria.student@googleschool.demo" [ref=e83]
+                - cell [ref=e84]:
+                  - generic [ref=e85]:
+                    - button "View Details" [ref=e86] [cursor=pointer]:
+                      - img [ref=e87]
+                    - button "Edit Student" [ref=e90] [cursor=pointer]:
+                      - img [ref=e91]
+              - row "Lucas Torres 1º ESO B lucas.student@googleschool.demo" [ref=e93]:
+                - cell "Lucas Torres" [ref=e94]:
+                  - generic [ref=e96]: Lucas Torres
+                - cell "1º ESO B" [ref=e97]:
+                  - generic [ref=e98]: 1º ESO B
+                - cell "lucas.student@googleschool.demo" [ref=e99]
+                - cell [ref=e100]:
+                  - generic [ref=e101]:
+                    - button "View Details" [ref=e102] [cursor=pointer]:
+                      - img [ref=e103]
+                    - button "Edit Student" [ref=e106] [cursor=pointer]:
+                      - img [ref=e107]
+              - row "Pedro Rivera Martínez 1º ESO A pedro.rivera.martinez.student@googleschool.demo" [ref=e109]:
+                - cell "Pedro Rivera Martínez" [ref=e110]:
+                  - generic [ref=e112]: Pedro Rivera Martínez
+                - cell "1º ESO A" [ref=e113]:
+                  - generic [ref=e114]: 1º ESO A
+                - cell "pedro.rivera.martinez.student@googleschool.demo" [ref=e115]
+                - cell [ref=e116]:
+                  - generic [ref=e117]:
+                    - button "View Details" [ref=e118] [cursor=pointer]:
+                      - img [ref=e119]
+                    - button "Edit Student" [ref=e122] [cursor=pointer]:
+                      - img [ref=e123]
+              - row "Leo Rodríguez Flores 1º ESO A leo.rodriguez.flores.student@googleschool.demo" [ref=e125]:
+                - cell "Leo Rodríguez Flores" [ref=e126]:
+                  - generic [ref=e128]: Leo Rodríguez Flores
+                - cell "1º ESO A" [ref=e129]:
+                  - generic [ref=e130]: 1º ESO A
+                - cell "leo.rodriguez.flores.student@googleschool.demo" [ref=e131]
+                - cell [ref=e132]:
+                  - generic [ref=e133]:
+                    - button "View Details" [ref=e134] [cursor=pointer]:
+                      - img [ref=e135]
+                    - button "Edit Student" [ref=e138] [cursor=pointer]:
+                      - img [ref=e139]
+              - row "Carmen Morales López 1º ESO A carmen.morales.lopez.student@googleschool.demo" [ref=e141]:
+                - cell "Carmen Morales López" [ref=e142]:
+                  - generic [ref=e144]: Carmen Morales López
+                - cell "1º ESO A" [ref=e145]:
+                  - generic [ref=e146]: 1º ESO A
+                - cell "carmen.morales.lopez.student@googleschool.demo" [ref=e147]
+                - cell [ref=e148]:
+                  - generic [ref=e149]:
+                    - button "View Details" [ref=e150] [cursor=pointer]:
+                      - img [ref=e151]
+                    - button "Edit Student" [ref=e154] [cursor=pointer]:
+                      - img [ref=e155]
+              - row "Emma Flores García 1º ESO A emma.flores.garcia.student@googleschool.demo" [ref=e157]:
+                - cell "Emma Flores García" [ref=e158]:
+                  - generic [ref=e160]: Emma Flores García
+                - cell "1º ESO A" [ref=e161]:
+                  - generic [ref=e162]: 1º ESO A
+                - cell "emma.flores.garcia.student@googleschool.demo" [ref=e163]
+                - cell [ref=e164]:
+                  - generic [ref=e165]:
+                    - button "View Details" [ref=e166] [cursor=pointer]:
+                      - img [ref=e167]
+                    - button "Edit Student" [ref=e170] [cursor=pointer]:
+                      - img [ref=e171]
+              - row "Alejandro Torres Díaz 1º ESO A alejandro.torres.diaz.student@googleschool.demo" [ref=e173]:
+                - cell "Alejandro Torres Díaz" [ref=e174]:
+                  - generic [ref=e176]: Alejandro Torres Díaz
+                - cell "1º ESO A" [ref=e177]:
+                  - generic [ref=e178]: 1º ESO A
+                - cell "alejandro.torres.diaz.student@googleschool.demo" [ref=e179]
+                - cell [ref=e180]:
+                  - generic [ref=e181]:
+                    - button "View Details" [ref=e182] [cursor=pointer]:
+                      - img [ref=e183]
+                    - button "Edit Student" [ref=e186] [cursor=pointer]:
+                      - img [ref=e187]
+              - row "Martín Navarro Ruiz 1º ESO A martin.navarro.ruiz.student@googleschool.demo" [ref=e189]:
+                - cell "Martín Navarro Ruiz" [ref=e190]:
+                  - generic [ref=e192]: Martín Navarro Ruiz
+                - cell "1º ESO A" [ref=e193]:
+                  - generic [ref=e194]: 1º ESO A
+                - cell "martin.navarro.ruiz.student@googleschool.demo" [ref=e195]
+                - cell [ref=e196]:
+                  - generic [ref=e197]:
+                    - button "View Details" [ref=e198] [cursor=pointer]:
+                      - img [ref=e199]
+                    - button "Edit Student" [ref=e202] [cursor=pointer]:
+                      - img [ref=e203]
+              - row "David Torres Hernández 1º ESO A david.torres.hernandez.student@googleschool.demo" [ref=e205]:
+                - cell "David Torres Hernández" [ref=e206]:
+                  - generic [ref=e208]: David Torres Hernández
+                - cell "1º ESO A" [ref=e209]:
+                  - generic [ref=e210]: 1º ESO A
+                - cell "david.torres.hernandez.student@googleschool.demo" [ref=e211]
+                - cell [ref=e212]:
+                  - generic [ref=e213]:
+                    - button "View Details" [ref=e214] [cursor=pointer]:
+                      - img [ref=e215]
+                    - button "Edit Student" [ref=e218] [cursor=pointer]:
+                      - img [ref=e219]
+              - row "Carla Rodríguez Muñoz 1º ESO A carla.rodriguez.munoz.student@googleschool.demo" [ref=e221]:
+                - cell "Carla Rodríguez Muñoz" [ref=e222]:
+                  - generic [ref=e224]: Carla Rodríguez Muñoz
+                - cell "1º ESO A" [ref=e225]:
+                  - generic [ref=e226]: 1º ESO A
+                - cell "carla.rodriguez.munoz.student@googleschool.demo" [ref=e227]
+                - cell [ref=e228]:
+                  - generic [ref=e229]:
+                    - button "View Details" [ref=e230] [cursor=pointer]:
+                      - img [ref=e231]
+                    - button "Edit Student" [ref=e234] [cursor=pointer]:
+                      - img [ref=e235]
+              - row "Pablo Flores Jiménez 1º ESO A pablo.flores.jimenez.student@googleschool.demo" [ref=e237]:
+                - cell "Pablo Flores Jiménez" [ref=e238]:
+                  - generic [ref=e240]: Pablo Flores Jiménez
+                - cell "1º ESO A" [ref=e241]:
+                  - generic [ref=e242]: 1º ESO A
+                - cell "pablo.flores.jimenez.student@googleschool.demo" [ref=e243]
+                - cell [ref=e244]:
+                  - generic [ref=e245]:
+                    - button "View Details" [ref=e246] [cursor=pointer]:
+                      - img [ref=e247]
+                    - button "Edit Student" [ref=e250] [cursor=pointer]:
+                      - img [ref=e251]
+              - row "Claudia Pérez González 1º ESO A claudia.perez.gonzalez.student@googleschool.demo" [ref=e253]:
+                - cell "Claudia Pérez González" [ref=e254]:
+                  - generic [ref=e256]: Claudia Pérez González
+                - cell "1º ESO A" [ref=e257]:
+                  - generic [ref=e258]: 1º ESO A
+                - cell "claudia.perez.gonzalez.student@googleschool.demo" [ref=e259]
+                - cell [ref=e260]:
+                  - generic [ref=e261]:
+                    - button "View Details" [ref=e262] [cursor=pointer]:
+                      - img [ref=e263]
+                    - button "Edit Student" [ref=e266] [cursor=pointer]:
+                      - img [ref=e267]
+              - row "Enzo Flores Navarro 1º ESO A enzo.flores.navarro.student@googleschool.demo" [ref=e269]:
+                - cell "Enzo Flores Navarro" [ref=e270]:
+                  - generic [ref=e272]: Enzo Flores Navarro
+                - cell "1º ESO A" [ref=e273]:
+                  - generic [ref=e274]: 1º ESO A
+                - cell "enzo.flores.navarro.student@googleschool.demo" [ref=e275]
+                - cell [ref=e276]:
+                  - generic [ref=e277]:
+                    - button "View Details" [ref=e278] [cursor=pointer]:
+                      - img [ref=e279]
+                    - button "Edit Student" [ref=e282] [cursor=pointer]:
+                      - img [ref=e283]
+              - row "Sofía Gómez García 1º ESO A sofia.gomez.garcia.student@googleschool.demo" [ref=e285]:
+                - cell "Sofía Gómez García" [ref=e286]:
+                  - generic [ref=e288]: Sofía Gómez García
+                - cell "1º ESO A" [ref=e289]:
+                  - generic [ref=e290]: 1º ESO A
+                - cell "sofia.gomez.garcia.student@googleschool.demo" [ref=e291]
+                - cell [ref=e292]:
+                  - generic [ref=e293]:
+                    - button "View Details" [ref=e294] [cursor=pointer]:
+                      - img [ref=e295]
+                    - button "Edit Student" [ref=e298] [cursor=pointer]:
+                      - img [ref=e299]
+              - row "Pablo Ruiz Gómez 1º ESO A pablo.ruiz.gomez.student@googleschool.demo" [ref=e301]:
+                - cell "Pablo Ruiz Gómez" [ref=e302]:
+                  - generic [ref=e304]: Pablo Ruiz Gómez
+                - cell "1º ESO A" [ref=e305]:
+                  - generic [ref=e306]: 1º ESO A
+                - cell "pablo.ruiz.gomez.student@googleschool.demo" [ref=e307]
+                - cell [ref=e308]:
+                  - generic [ref=e309]:
+                    - button "View Details" [ref=e310] [cursor=pointer]:
+                      - img [ref=e311]
+                    - button "Edit Student" [ref=e314] [cursor=pointer]:
+                      - img [ref=e315]
+              - row "Julia Torres Moreno 1º ESO A julia.torres.moreno.student@googleschool.demo" [ref=e317]:
+                - cell "Julia Torres Moreno" [ref=e318]:
+                  - generic [ref=e320]: Julia Torres Moreno
+                - cell "1º ESO A" [ref=e321]:
+                  - generic [ref=e322]: 1º ESO A
+                - cell "julia.torres.moreno.student@googleschool.demo" [ref=e323]
+                - cell [ref=e324]:
+                  - generic [ref=e325]:
+                    - button "View Details" [ref=e326] [cursor=pointer]:
+                      - img [ref=e327]
+                    - button "Edit Student" [ref=e330] [cursor=pointer]:
+                      - img [ref=e331]
+              - row "Juan Martínez Alvarez 1º ESO A juan.martinez.alvarez.student@googleschool.demo" [ref=e333]:
+                - cell "Juan Martínez Alvarez" [ref=e334]:
+                  - generic [ref=e336]: Juan Martínez Alvarez
+                - cell "1º ESO A" [ref=e337]:
+                  - generic [ref=e338]: 1º ESO A
+                - cell "juan.martinez.alvarez.student@googleschool.demo" [ref=e339]
+                - cell [ref=e340]:
+                  - generic [ref=e341]:
+                    - button "View Details" [ref=e342] [cursor=pointer]:
+                      - img [ref=e343]
+                    - button "Edit Student" [ref=e346] [cursor=pointer]:
+                      - img [ref=e347]
+              - row "Pablo Moreno Castillo 1º ESO A pablo.moreno.castillo.student@googleschool.demo" [ref=e349]:
+                - cell "Pablo Moreno Castillo" [ref=e350]:
+                  - generic [ref=e352]: Pablo Moreno Castillo
+                - cell "1º ESO A" [ref=e353]:
+                  - generic [ref=e354]: 1º ESO A
+                - cell "pablo.moreno.castillo.student@googleschool.demo" [ref=e355]
+                - cell [ref=e356]:
+                  - generic [ref=e357]:
+                    - button "View Details" [ref=e358] [cursor=pointer]:
+                      - img [ref=e359]
+                    - button "Edit Student" [ref=e362] [cursor=pointer]:
+                      - img [ref=e363]
+              - row "Lola Ramírez Jiménez 1º ESO A lola.ramirez.jimenez.student@googleschool.demo" [ref=e365]:
+                - cell "Lola Ramírez Jiménez" [ref=e366]:
+                  - generic [ref=e368]: Lola Ramírez Jiménez
+                - cell "1º ESO A" [ref=e369]:
+                  - generic [ref=e370]: 1º ESO A
+                - cell "lola.ramirez.jimenez.student@googleschool.demo" [ref=e371]
+                - cell [ref=e372]:
+                  - generic [ref=e373]:
+                    - button "View Details" [ref=e374] [cursor=pointer]:
+                      - img [ref=e375]
+                    - button "Edit Student" [ref=e378] [cursor=pointer]:
+                      - img [ref=e379]
+              - row "Claudia Rivera Ortiz 1º ESO A claudia.rivera.ortiz.student@googleschool.demo" [ref=e381]:
+                - cell "Claudia Rivera Ortiz" [ref=e382]:
+                  - generic [ref=e384]: Claudia Rivera Ortiz
+                - cell "1º ESO A" [ref=e385]:
+                  - generic [ref=e386]: 1º ESO A
+                - cell "claudia.rivera.ortiz.student@googleschool.demo" [ref=e387]
+                - cell [ref=e388]:
+                  - generic [ref=e389]:
+                    - button "View Details" [ref=e390] [cursor=pointer]:
+                      - img [ref=e391]
+                    - button "Edit Student" [ref=e394] [cursor=pointer]:
+                      - img [ref=e395]
+              - row "Camila Rivera Martínez 1º ESO A camila.rivera.martinez.student@googleschool.demo" [ref=e397]:
+                - cell "Camila Rivera Martínez" [ref=e398]:
+                  - generic [ref=e400]: Camila Rivera Martínez
+                - cell "1º ESO A" [ref=e401]:
+                  - generic [ref=e402]: 1º ESO A
+                - cell "camila.rivera.martinez.student@googleschool.demo" [ref=e403]
+                - cell [ref=e404]:
+                  - generic [ref=e405]:
+                    - button "View Details" [ref=e406] [cursor=pointer]:
+                      - img [ref=e407]
+                    - button "Edit Student" [ref=e410] [cursor=pointer]:
+                      - img [ref=e411]
+              - row "Camila Torres López 1º ESO A camila.torres.lopez.student@googleschool.demo" [ref=e413]:
+                - cell "Camila Torres López" [ref=e414]:
+                  - generic [ref=e416]: Camila Torres López
+                - cell "1º ESO A" [ref=e417]:
+                  - generic [ref=e418]: 1º ESO A
+                - cell "camila.torres.lopez.student@googleschool.demo" [ref=e419]
+                - cell [ref=e420]:
+                  - generic [ref=e421]:
+                    - button "View Details" [ref=e422] [cursor=pointer]:
+                      - img [ref=e423]
+                    - button "Edit Student" [ref=e426] [cursor=pointer]:
+                      - img [ref=e427]
+              - row "Lucía López González 1º ESO B lucia.lopez.gonzalez.student@googleschool.demo" [ref=e429]:
+                - cell "Lucía López González" [ref=e430]:
+                  - generic [ref=e432]: Lucía López González
+                - cell "1º ESO B" [ref=e433]:
+                  - generic [ref=e434]: 1º ESO B
+                - cell "lucia.lopez.gonzalez.student@googleschool.demo" [ref=e435]
+                - cell [ref=e436]:
+                  - generic [ref=e437]:
+                    - button "View Details" [ref=e438] [cursor=pointer]:
+                      - img [ref=e439]
+                    - button "Edit Student" [ref=e442] [cursor=pointer]:
+                      - img [ref=e443]
+              - row "Alejandro Reyes Castillo 1º ESO B alejandro.reyes.castillo.student@googleschool.demo" [ref=e445]:
+                - cell "Alejandro Reyes Castillo" [ref=e446]:
+                  - generic [ref=e448]: Alejandro Reyes Castillo
+                - cell "1º ESO B" [ref=e449]:
+                  - generic [ref=e450]: 1º ESO B
+                - cell "alejandro.reyes.castillo.student@googleschool.demo" [ref=e451]
+                - cell [ref=e452]:
+                  - generic [ref=e453]:
+                    - button "View Details" [ref=e454] [cursor=pointer]:
+                      - img [ref=e455]
+                    - button "Edit Student" [ref=e458] [cursor=pointer]:
+                      - img [ref=e459]
+              - row "Diego Castillo Díaz 1º ESO B diego.castillo.diaz.student@googleschool.demo" [ref=e461]:
+                - cell "Diego Castillo Díaz" [ref=e462]:
+                  - generic [ref=e464]: Diego Castillo Díaz
+                - cell "1º ESO B" [ref=e465]:
+                  - generic [ref=e466]: 1º ESO B
+                - cell "diego.castillo.diaz.student@googleschool.demo" [ref=e467]
+                - cell [ref=e468]:
+                  - generic [ref=e469]:
+                    - button "View Details" [ref=e470] [cursor=pointer]:
+                      - img [ref=e471]
+                    - button "Edit Student" [ref=e474] [cursor=pointer]:
+                      - img [ref=e475]
+              - row "Gabriel Romero Reyes 1º ESO B gabriel.romero.reyes.student@googleschool.demo" [ref=e477]:
+                - cell "Gabriel Romero Reyes" [ref=e478]:
+                  - generic [ref=e480]: Gabriel Romero Reyes
+                - cell "1º ESO B" [ref=e481]:
+                  - generic [ref=e482]: 1º ESO B
+                - cell "gabriel.romero.reyes.student@googleschool.demo" [ref=e483]
+                - cell [ref=e484]:
+                  - generic [ref=e485]:
+                    - button "View Details" [ref=e486] [cursor=pointer]:
+                      - img [ref=e487]
+                    - button "Edit Student" [ref=e490] [cursor=pointer]:
+                      - img [ref=e491]
+              - row "Camila Jiménez Rodríguez 1º ESO B camila.jimenez.rodriguez.student@googleschool.demo" [ref=e493]:
+                - cell "Camila Jiménez Rodríguez" [ref=e494]:
+                  - generic [ref=e496]: Camila Jiménez Rodríguez
+                - cell "1º ESO B" [ref=e497]:
+                  - generic [ref=e498]: 1º ESO B
+                - cell "camila.jimenez.rodriguez.student@googleschool.demo" [ref=e499]
+                - cell [ref=e500]:
+                  - generic [ref=e501]:
+                    - button "View Details" [ref=e502] [cursor=pointer]:
+                      - img [ref=e503]
+                    - button "Edit Student" [ref=e506] [cursor=pointer]:
+                      - img [ref=e507]
+              - row "Samuel Castillo Navarro 1º ESO B samuel.castillo.navarro.student@googleschool.demo" [ref=e509]:
+                - cell "Samuel Castillo Navarro" [ref=e510]:
+                  - generic [ref=e512]: Samuel Castillo Navarro
+                - cell "1º ESO B" [ref=e513]:
+                  - generic [ref=e514]: 1º ESO B
+                - cell "samuel.castillo.navarro.student@googleschool.demo" [ref=e515]
+                - cell [ref=e516]:
+                  - generic [ref=e517]:
+                    - button "View Details" [ref=e518] [cursor=pointer]:
+                      - img [ref=e519]
+                    - button "Edit Student" [ref=e522] [cursor=pointer]:
+                      - img [ref=e523]
+              - row "Sebastián Díaz Ramírez 1º ESO B sebastian.diaz.ramirez.student@googleschool.demo" [ref=e525]:
+                - cell "Sebastián Díaz Ramírez" [ref=e526]:
+                  - generic [ref=e528]: Sebastián Díaz Ramírez
+                - cell "1º ESO B" [ref=e529]:
+                  - generic [ref=e530]: 1º ESO B
+                - cell "sebastian.diaz.ramirez.student@googleschool.demo" [ref=e531]
+                - cell [ref=e532]:
+                  - generic [ref=e533]:
+                    - button "View Details" [ref=e534] [cursor=pointer]:
+                      - img [ref=e535]
+                    - button "Edit Student" [ref=e538] [cursor=pointer]:
+                      - img [ref=e539]
+              - row "Vega Hernández Gómez 1º ESO B vega.hernandez.gomez.student@googleschool.demo" [ref=e541]:
+                - cell "Vega Hernández Gómez" [ref=e542]:
+                  - generic [ref=e544]: Vega Hernández Gómez
+                - cell "1º ESO B" [ref=e545]:
+                  - generic [ref=e546]: 1º ESO B
+                - cell "vega.hernandez.gomez.student@googleschool.demo" [ref=e547]
+                - cell [ref=e548]:
+                  - generic [ref=e549]:
+                    - button "View Details" [ref=e550] [cursor=pointer]:
+                      - img [ref=e551]
+                    - button "Edit Student" [ref=e554] [cursor=pointer]:
+                      - img [ref=e555]
+              - row "Martina López Martínez 1º ESO B martina.lopez.martinez.student@googleschool.demo" [ref=e557]:
+                - cell "Martina López Martínez" [ref=e558]:
+                  - generic [ref=e560]: Martina López Martínez
+                - cell "1º ESO B" [ref=e561]:
+                  - generic [ref=e562]: 1º ESO B
+                - cell "martina.lopez.martinez.student@googleschool.demo" [ref=e563]
+                - cell [ref=e564]:
+                  - generic [ref=e565]:
+                    - button "View Details" [ref=e566] [cursor=pointer]:
+                      - img [ref=e567]
+                    - button "Edit Student" [ref=e570] [cursor=pointer]:
+                      - img [ref=e571]
+              - row "Nicolás López González 1º ESO B nicolas.lopez.gonzalez.student@googleschool.demo" [ref=e573]:
+                - cell "Nicolás López González" [ref=e574]:
+                  - generic [ref=e576]: Nicolás López González
+                - cell "1º ESO B" [ref=e577]:
+                  - generic [ref=e578]: 1º ESO B
+                - cell "nicolas.lopez.gonzalez.student@googleschool.demo" [ref=e579]
+                - cell [ref=e580]:
+                  - generic [ref=e581]:
+                    - button "View Details" [ref=e582] [cursor=pointer]:
+                      - img [ref=e583]
+                    - button "Edit Student" [ref=e586] [cursor=pointer]:
+                      - img [ref=e587]
+              - row "Candela Muñoz Romero 1º ESO B candela.munoz.romero.student@googleschool.demo" [ref=e589]:
+                - cell "Candela Muñoz Romero" [ref=e590]:
+                  - generic [ref=e592]: Candela Muñoz Romero
+                - cell "1º ESO B" [ref=e593]:
+                  - generic [ref=e594]: 1º ESO B
+                - cell "candela.munoz.romero.student@googleschool.demo" [ref=e595]
+                - cell [ref=e596]:
+                  - generic [ref=e597]:
+                    - button "View Details" [ref=e598] [cursor=pointer]:
+                      - img [ref=e599]
+                    - button "Edit Student" [ref=e602] [cursor=pointer]:
+                      - img [ref=e603]
+              - row "Santiago López Navarro 1º ESO B santiago.lopez.navarro.student@googleschool.demo" [ref=e605]:
+                - cell "Santiago López Navarro" [ref=e606]:
+                  - generic [ref=e608]: Santiago López Navarro
+                - cell "1º ESO B" [ref=e609]:
+                  - generic [ref=e610]: 1º ESO B
+                - cell "santiago.lopez.navarro.student@googleschool.demo" [ref=e611]
+                - cell [ref=e612]:
+                  - generic [ref=e613]:
+                    - button "View Details" [ref=e614] [cursor=pointer]:
+                      - img [ref=e615]
+                    - button "Edit Student" [ref=e618] [cursor=pointer]:
+                      - img [ref=e619]
+              - row "Alejandro Hernández Alvarez 1º ESO B alejandro.hernandez.alvarez.student@googleschool.demo" [ref=e621]:
+                - cell "Alejandro Hernández Alvarez" [ref=e622]:
+                  - generic [ref=e624]: Alejandro Hernández Alvarez
+                - cell "1º ESO B" [ref=e625]:
+                  - generic [ref=e626]: 1º ESO B
+                - cell "alejandro.hernandez.alvarez.student@googleschool.demo" [ref=e627]
+                - cell [ref=e628]:
+                  - generic [ref=e629]:
+                    - button "View Details" [ref=e630] [cursor=pointer]:
+                      - img [ref=e631]
+                    - button "Edit Student" [ref=e634] [cursor=pointer]:
+                      - img [ref=e635]
+              - row "Daniela Pérez Ramírez 1º ESO B daniela.perez.ramirez.student@googleschool.demo" [ref=e637]:
+                - cell "Daniela Pérez Ramírez" [ref=e638]:
+                  - generic [ref=e640]: Daniela Pérez Ramírez
+                - cell "1º ESO B" [ref=e641]:
+                  - generic [ref=e642]: 1º ESO B
+                - cell "daniela.perez.ramirez.student@googleschool.demo" [ref=e643]
+                - cell [ref=e644]:
+                  - generic [ref=e645]:
+                    - button "View Details" [ref=e646] [cursor=pointer]:
+                      - img [ref=e647]
+                    - button "Edit Student" [ref=e650] [cursor=pointer]:
+                      - img [ref=e651]
+              - row "Juan Gómez Hernández 1º ESO B juan.gomez.hernandez.student@googleschool.demo" [ref=e653]:
+                - cell "Juan Gómez Hernández" [ref=e654]:
+                  - generic [ref=e656]: Juan Gómez Hernández
+                - cell "1º ESO B" [ref=e657]:
+                  - generic [ref=e658]: 1º ESO B
+                - cell "juan.gomez.hernandez.student@googleschool.demo" [ref=e659]
+                - cell [ref=e660]:
+                  - generic [ref=e661]:
+                    - button "View Details" [ref=e662] [cursor=pointer]:
+                      - img [ref=e663]
+                    - button "Edit Student" [ref=e666] [cursor=pointer]:
+                      - img [ref=e667]
+              - row "Camila García Sánchez 1º ESO B camila.garcia.sanchez.student@googleschool.demo" [ref=e669]:
+                - cell "Camila García Sánchez" [ref=e670]:
+                  - generic [ref=e672]: Camila García Sánchez
+                - cell "1º ESO B" [ref=e673]:
+                  - generic [ref=e674]: 1º ESO B
+                - cell "camila.garcia.sanchez.student@googleschool.demo" [ref=e675]
+                - cell [ref=e676]:
+                  - generic [ref=e677]:
+                    - button "View Details" [ref=e678] [cursor=pointer]:
+                      - img [ref=e679]
+                    - button "Edit Student" [ref=e682] [cursor=pointer]:
+                      - img [ref=e683]
+              - row "Lola Ruiz Díaz 1º ESO B lola.ruiz.diaz.student@googleschool.demo" [ref=e685]:
+                - cell "Lola Ruiz Díaz" [ref=e686]:
+                  - generic [ref=e688]: Lola Ruiz Díaz
+                - cell "1º ESO B" [ref=e689]:
+                  - generic [ref=e690]: 1º ESO B
+                - cell "lola.ruiz.diaz.student@googleschool.demo" [ref=e691]
+                - cell [ref=e692]:
+                  - generic [ref=e693]:
+                    - button "View Details" [ref=e694] [cursor=pointer]:
+                      - img [ref=e695]
+                    - button "Edit Student" [ref=e698] [cursor=pointer]:
+                      - img [ref=e699]
+              - row "Abril Hernández González 1º ESO B abril.hernandez.gonzalez.student@googleschool.demo" [ref=e701]:
+                - cell "Abril Hernández González" [ref=e702]:
+                  - generic [ref=e704]: Abril Hernández González
+                - cell "1º ESO B" [ref=e705]:
+                  - generic [ref=e706]: 1º ESO B
+                - cell "abril.hernandez.gonzalez.student@googleschool.demo" [ref=e707]
+                - cell [ref=e708]:
+                  - generic [ref=e709]:
+                    - button "View Details" [ref=e710] [cursor=pointer]:
+                      - img [ref=e711]
+                    - button "Edit Student" [ref=e714] [cursor=pointer]:
+                      - img [ref=e715]
+              - row "Leo Ortiz Gómez 1º ESO B leo.ortiz.gomez.student@googleschool.demo" [ref=e717]:
+                - cell "Leo Ortiz Gómez" [ref=e718]:
+                  - generic [ref=e720]: Leo Ortiz Gómez
+                - cell "1º ESO B" [ref=e721]:
+                  - generic [ref=e722]: 1º ESO B
+                - cell "leo.ortiz.gomez.student@googleschool.demo" [ref=e723]
+                - cell [ref=e724]:
+                  - generic [ref=e725]:
+                    - button "View Details" [ref=e726] [cursor=pointer]:
+                      - img [ref=e727]
+                    - button "Edit Student" [ref=e730] [cursor=pointer]:
+                      - img [ref=e731]
+              - row "Samuel Moreno Alvarez 1º ESO B samuel.moreno.alvarez.student@googleschool.demo" [ref=e733]:
+                - cell "Samuel Moreno Alvarez" [ref=e734]:
+                  - generic [ref=e736]: Samuel Moreno Alvarez
+                - cell "1º ESO B" [ref=e737]:
+                  - generic [ref=e738]: 1º ESO B
+                - cell "samuel.moreno.alvarez.student@googleschool.demo" [ref=e739]
+                - cell [ref=e740]:
+                  - generic [ref=e741]:
+                    - button "View Details" [ref=e742] [cursor=pointer]:
+                      - img [ref=e743]
+                    - button "Edit Student" [ref=e746] [cursor=pointer]:
+                      - img [ref=e747]
+              - row "Claudia Navarro Rodríguez 2º ESO A claudia.navarro.rodriguez.student@googleschool.demo" [ref=e749]:
+                - cell "Claudia Navarro Rodríguez" [ref=e750]:
+                  - generic [ref=e752]: Claudia Navarro Rodríguez
+                - cell "2º ESO A" [ref=e753]:
+                  - generic [ref=e754]: 2º ESO A
+                - cell "claudia.navarro.rodriguez.student@googleschool.demo" [ref=e755]
+                - cell [ref=e756]:
+                  - generic [ref=e757]:
+                    - button "View Details" [ref=e758] [cursor=pointer]:
+                      - img [ref=e759]
+                    - button "Edit Student" [ref=e762] [cursor=pointer]:
+                      - img [ref=e763]
+              - row "Samuel Moreno Pérez 2º ESO A samuel.moreno.perez.student@googleschool.demo" [ref=e765]:
+                - cell "Samuel Moreno Pérez" [ref=e766]:
+                  - generic [ref=e768]: Samuel Moreno Pérez
+                - cell "2º ESO A" [ref=e769]:
+                  - generic [ref=e770]: 2º ESO A
+                - cell "samuel.moreno.perez.student@googleschool.demo" [ref=e771]
+                - cell [ref=e772]:
+                  - generic [ref=e773]:
+                    - button "View Details" [ref=e774] [cursor=pointer]:
+                      - img [ref=e775]
+                    - button "Edit Student" [ref=e778] [cursor=pointer]:
+                      - img [ref=e779]
+              - row "Daniela Alvarez Romero 2º ESO A daniela.alvarez.romero.student@googleschool.demo" [ref=e781]:
+                - cell "Daniela Alvarez Romero" [ref=e782]:
+                  - generic [ref=e784]: Daniela Alvarez Romero
+                - cell "2º ESO A" [ref=e785]:
+                  - generic [ref=e786]: 2º ESO A
+                - cell "daniela.alvarez.romero.student@googleschool.demo" [ref=e787]
+                - cell [ref=e788]:
+                  - generic [ref=e789]:
+                    - button "View Details" [ref=e790] [cursor=pointer]:
+                      - img [ref=e791]
+                    - button "Edit Student" [ref=e794] [cursor=pointer]:
+                      - img [ref=e795]
+              - row "Mariana Flores Díaz 2º ESO A mariana.flores.diaz.student@googleschool.demo" [ref=e797]:
+                - cell "Mariana Flores Díaz" [ref=e798]:
+                  - generic [ref=e800]: Mariana Flores Díaz
+                - cell "2º ESO A" [ref=e801]:
+                  - generic [ref=e802]: 2º ESO A
+                - cell "mariana.flores.diaz.student@googleschool.demo" [ref=e803]
+                - cell [ref=e804]:
+                  - generic [ref=e805]:
+                    - button "View Details" [ref=e806] [cursor=pointer]:
+                      - img [ref=e807]
+                    - button "Edit Student" [ref=e810] [cursor=pointer]:
+                      - img [ref=e811]
+              - row "Candela Romero Díaz 2º ESO A candela.romero.diaz.student@googleschool.demo" [ref=e813]:
+                - cell "Candela Romero Díaz" [ref=e814]:
+                  - generic [ref=e816]: Candela Romero Díaz
+                - cell "2º ESO A" [ref=e817]:
+                  - generic [ref=e818]: 2º ESO A
+                - cell "candela.romero.diaz.student@googleschool.demo" [ref=e819]
+                - cell [ref=e820]:
+                  - generic [ref=e821]:
+                    - button "View Details" [ref=e822] [cursor=pointer]:
+                      - img [ref=e823]
+                    - button "Edit Student" [ref=e826] [cursor=pointer]:
+                      - img [ref=e827]
+              - row "Mateo Flores Muñoz 2º ESO A mateo.flores.munoz.student@googleschool.demo" [ref=e829]:
+                - cell "Mateo Flores Muñoz" [ref=e830]:
+                  - generic [ref=e832]: Mateo Flores Muñoz
+                - cell "2º ESO A" [ref=e833]:
+                  - generic [ref=e834]: 2º ESO A
+                - cell "mateo.flores.munoz.student@googleschool.demo" [ref=e835]
+                - cell [ref=e836]:
+                  - generic [ref=e837]:
+                    - button "View Details" [ref=e838] [cursor=pointer]:
+                      - img [ref=e839]
+                    - button "Edit Student" [ref=e842] [cursor=pointer]:
+                      - img [ref=e843]
+              - row "Diego Moreno Gómez 2º ESO A diego.moreno.gomez.student@googleschool.demo" [ref=e845]:
+                - cell "Diego Moreno Gómez" [ref=e846]:
+                  - generic [ref=e848]: Diego Moreno Gómez
+                - cell "2º ESO A" [ref=e849]:
+                  - generic [ref=e850]: 2º ESO A
+                - cell "diego.moreno.gomez.student@googleschool.demo" [ref=e851]
+                - cell [ref=e852]:
+                  - generic [ref=e853]:
+                    - button "View Details" [ref=e854] [cursor=pointer]:
+                      - img [ref=e855]
+                    - button "Edit Student" [ref=e858] [cursor=pointer]:
+                      - img [ref=e859]
+              - row "Victoria Rivera Muñoz 2º ESO A victoria.rivera.munoz.student@googleschool.demo" [ref=e861]:
+                - cell "Victoria Rivera Muñoz" [ref=e862]:
+                  - generic [ref=e864]: Victoria Rivera Muñoz
+                - cell "2º ESO A" [ref=e865]:
+                  - generic [ref=e866]: 2º ESO A
+                - cell "victoria.rivera.munoz.student@googleschool.demo" [ref=e867]
+                - cell [ref=e868]:
+                  - generic [ref=e869]:
+                    - button "View Details" [ref=e870] [cursor=pointer]:
+                      - img [ref=e871]
+                    - button "Edit Student" [ref=e874] [cursor=pointer]:
+                      - img [ref=e875]
+              - row "Lucas Navarro Ramírez 2º ESO A lucas.navarro.ramirez.student@googleschool.demo" [ref=e877]:
+                - cell "Lucas Navarro Ramírez" [ref=e878]:
+                  - generic [ref=e880]: Lucas Navarro Ramírez
+                - cell "2º ESO A" [ref=e881]:
+                  - generic [ref=e882]: 2º ESO A
+                - cell "lucas.navarro.ramirez.student@googleschool.demo" [ref=e883]
+                - cell [ref=e884]:
+                  - generic [ref=e885]:
+                    - button "View Details" [ref=e886] [cursor=pointer]:
+                      - img [ref=e887]
+                    - button "Edit Student" [ref=e890] [cursor=pointer]:
+                      - img [ref=e891]
+              - row "Pedro Ruiz Muñoz 2º ESO A pedro.ruiz.munoz.student@googleschool.demo" [ref=e893]:
+                - cell "Pedro Ruiz Muñoz" [ref=e894]:
+                  - generic [ref=e896]: Pedro Ruiz Muñoz
+                - cell "2º ESO A" [ref=e897]:
+                  - generic [ref=e898]: 2º ESO A
+                - cell "pedro.ruiz.munoz.student@googleschool.demo" [ref=e899]
+                - cell [ref=e900]:
+                  - generic [ref=e901]:
+                    - button "View Details" [ref=e902] [cursor=pointer]:
+                      - img [ref=e903]
+                    - button "Edit Student" [ref=e906] [cursor=pointer]:
+                      - img [ref=e907]
+              - row "Noa Castillo Rivera 2º ESO A noa.castillo.rivera.student@googleschool.demo" [ref=e909]:
+                - cell "Noa Castillo Rivera" [ref=e910]:
+                  - generic [ref=e912]: Noa Castillo Rivera
+                - cell "2º ESO A" [ref=e913]:
+                  - generic [ref=e914]: 2º ESO A
+                - cell "noa.castillo.rivera.student@googleschool.demo" [ref=e915]
+                - cell [ref=e916]:
+                  - generic [ref=e917]:
+                    - button "View Details" [ref=e918] [cursor=pointer]:
+                      - img [ref=e919]
+                    - button "Edit Student" [ref=e922] [cursor=pointer]:
+                      - img [ref=e923]
+              - row "Adrián Ruiz Ramírez 2º ESO A adrian.ruiz.ramirez.student@googleschool.demo" [ref=e925]:
+                - cell "Adrián Ruiz Ramírez" [ref=e926]:
+                  - generic [ref=e928]: Adrián Ruiz Ramírez
+                - cell "2º ESO A" [ref=e929]:
+                  - generic [ref=e930]: 2º ESO A
+                - cell "adrian.ruiz.ramirez.student@googleschool.demo" [ref=e931]
+                - cell [ref=e932]:
+                  - generic [ref=e933]:
+                    - button "View Details" [ref=e934] [cursor=pointer]:
+                      - img [ref=e935]
+                    - button "Edit Student" [ref=e938] [cursor=pointer]:
+                      - img [ref=e939]
+              - row "Paula Moreno Navarro 2º ESO A paula.moreno.navarro.student@googleschool.demo" [ref=e941]:
+                - cell "Paula Moreno Navarro" [ref=e942]:
+                  - generic [ref=e944]: Paula Moreno Navarro
+                - cell "2º ESO A" [ref=e945]:
+                  - generic [ref=e946]: 2º ESO A
+                - cell "paula.moreno.navarro.student@googleschool.demo" [ref=e947]
+                - cell [ref=e948]:
+                  - generic [ref=e949]:
+                    - button "View Details" [ref=e950] [cursor=pointer]:
+                      - img [ref=e951]
+                    - button "Edit Student" [ref=e954] [cursor=pointer]:
+                      - img [ref=e955]
+              - row "Santiago Rodríguez Navarro 2º ESO A santiago.rodriguez.navarro.student@googleschool.demo" [ref=e957]:
+                - cell "Santiago Rodríguez Navarro" [ref=e958]:
+                  - generic [ref=e960]: Santiago Rodríguez Navarro
+                - cell "2º ESO A" [ref=e961]:
+                  - generic [ref=e962]: 2º ESO A
+                - cell "santiago.rodriguez.navarro.student@googleschool.demo" [ref=e963]
+                - cell [ref=e964]:
+                  - generic [ref=e965]:
+                    - button "View Details" [ref=e966] [cursor=pointer]:
+                      - img [ref=e967]
+                    - button "Edit Student" [ref=e970] [cursor=pointer]:
+                      - img [ref=e971]
+              - row "Enzo Reyes Morales 2º ESO A enzo.reyes.morales.student@googleschool.demo" [ref=e973]:
+                - cell "Enzo Reyes Morales" [ref=e974]:
+                  - generic [ref=e976]: Enzo Reyes Morales
+                - cell "2º ESO A" [ref=e977]:
+                  - generic [ref=e978]: 2º ESO A
+                - cell "enzo.reyes.morales.student@googleschool.demo" [ref=e979]
+                - cell [ref=e980]:
+                  - generic [ref=e981]:
+                    - button "View Details" [ref=e982] [cursor=pointer]:
+                      - img [ref=e983]
+                    - button "Edit Student" [ref=e986] [cursor=pointer]:
+                      - img [ref=e987]
+              - row "Olivia Flores Pérez 2º ESO A olivia.flores.perez.student@googleschool.demo" [ref=e989]:
+                - cell "Olivia Flores Pérez" [ref=e990]:
+                  - generic [ref=e992]: Olivia Flores Pérez
+                - cell "2º ESO A" [ref=e993]:
+                  - generic [ref=e994]: 2º ESO A
+                - cell "olivia.flores.perez.student@googleschool.demo" [ref=e995]
+                - cell [ref=e996]:
+                  - generic [ref=e997]:
+                    - button "View Details" [ref=e998] [cursor=pointer]:
+                      - img [ref=e999]
+                    - button "Edit Student" [ref=e1002] [cursor=pointer]:
+                      - img [ref=e1003]
+              - row "Isabella Rivera Muñoz 2º ESO A isabella.rivera.munoz.student@googleschool.demo" [ref=e1005]:
+                - cell "Isabella Rivera Muñoz" [ref=e1006]:
+                  - generic [ref=e1008]: Isabella Rivera Muñoz
+                - cell "2º ESO A" [ref=e1009]:
+                  - generic [ref=e1010]: 2º ESO A
+                - cell "isabella.rivera.munoz.student@googleschool.demo" [ref=e1011]
+                - cell [ref=e1012]:
+                  - generic [ref=e1013]:
+                    - button "View Details" [ref=e1014] [cursor=pointer]:
+                      - img [ref=e1015]
+                    - button "Edit Student" [ref=e1018] [cursor=pointer]:
+                      - img [ref=e1019]
+              - row "Candela Flores Romero 2º ESO A candela.flores.romero.student@googleschool.demo" [ref=e1021]:
+                - cell "Candela Flores Romero" [ref=e1022]:
+                  - generic [ref=e1024]: Candela Flores Romero
+                - cell "2º ESO A" [ref=e1025]:
+                  - generic [ref=e1026]: 2º ESO A
+                - cell "candela.flores.romero.student@googleschool.demo" [ref=e1027]
+                - cell [ref=e1028]:
+                  - generic [ref=e1029]:
+                    - button "View Details" [ref=e1030] [cursor=pointer]:
+                      - img [ref=e1031]
+                    - button "Edit Student" [ref=e1034] [cursor=pointer]:
+                      - img [ref=e1035]
+              - row "Hugo Díaz Moreno 2º ESO A hugo.diaz.moreno.student@googleschool.demo" [ref=e1037]:
+                - cell "Hugo Díaz Moreno" [ref=e1038]:
+                  - generic [ref=e1040]: Hugo Díaz Moreno
+                - cell "2º ESO A" [ref=e1041]:
+                  - generic [ref=e1042]: 2º ESO A
+                - cell "hugo.diaz.moreno.student@googleschool.demo" [ref=e1043]
+                - cell [ref=e1044]:
+                  - generic [ref=e1045]:
+                    - button "View Details" [ref=e1046] [cursor=pointer]:
+                      - img [ref=e1047]
+                    - button "Edit Student" [ref=e1050] [cursor=pointer]:
+                      - img [ref=e1051]
+              - row "Alejandro Muñoz Ortiz 2º ESO A alejandro.munoz.ortiz.student@googleschool.demo" [ref=e1053]:
+                - cell "Alejandro Muñoz Ortiz" [ref=e1054]:
+                  - generic [ref=e1056]: Alejandro Muñoz Ortiz
+                - cell "2º ESO A" [ref=e1057]:
+                  - generic [ref=e1058]: 2º ESO A
+                - cell "alejandro.munoz.ortiz.student@googleschool.demo" [ref=e1059]
+                - cell [ref=e1060]:
+                  - generic [ref=e1061]:
+                    - button "View Details" [ref=e1062] [cursor=pointer]:
+                      - img [ref=e1063]
+                    - button "Edit Student" [ref=e1066] [cursor=pointer]:
+                      - img [ref=e1067]
+  - generic [ref=e1069]: "0"
+```

@@ -9,7 +9,11 @@ interface AppContextType {
   login: (email: string) => Promise<void>;
   logout: () => void;
   updateGrade: (grade: Grade) => void;
+  updateUser: (user: User) => void;
   payInvoice: (invoiceId: string) => void;
+  addInvoice: (invoice: import('../types').Invoice) => void;
+  updateInvoice: (invoice: import('../types').Invoice) => void;
+  deleteInvoice: (invoiceId: string) => void;
   loading: boolean;
 }
 
@@ -54,12 +58,36 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setData({ ...data, grades: newGrades });
   };
 
+  const updateUser = (updatedUser: User) => {
+    if (!data) return;
+    const newUsers = data.users.map(u => u.id === updatedUser.id ? updatedUser : u);
+    setData({ ...data, users: newUsers });
+  };
+
   const payInvoice = (invoiceId: string) => {
     if (!data) return;
-    const newInvoices = data.invoices.map(inv => 
+    const newInvoices = data.invoices.map(inv =>
       inv.id === invoiceId ? { ...inv, status: 'PAID' as any } : inv
     );
     setData({ ...data, invoices: newInvoices });
+  };
+
+  const addInvoice = (invoice: import('../types').Invoice) => {
+    if (!data) return;
+    setData({ ...data, invoices: [invoice, ...data.invoices] });
+  };
+
+  const updateInvoice = (updatedInvoice: import('../types').Invoice) => {
+    if (!data) return;
+    const newInvoices = data.invoices.map(inv =>
+      inv.id === updatedInvoice.id ? updatedInvoice : inv
+    );
+    setData({ ...data, invoices: newInvoices });
+  };
+
+  const deleteInvoice = (invoiceId: string) => {
+    if (!data) return;
+    setData({ ...data, invoices: data.invoices.filter(i => i.id !== invoiceId) });
   };
 
   if (!data) {
@@ -72,7 +100,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return React.createElement(
     AppContext.Provider,
-    { value: { data, currentUser, login, logout, updateGrade, payInvoice, loading } },
+    { value: { data, currentUser, login, logout, updateGrade, updateUser, payInvoice, addInvoice, updateInvoice, deleteInvoice, loading } },
     children
   );
 };

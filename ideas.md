@@ -1,6 +1,6 @@
 # Project Ideas & Backlog
 
-Use this file to track new ideas, features, or improvements for Google School.
+Use this file to track new ideas, features, or improvements for NextGen School.
 
 ## Data Management & Utilities
 - [ ] **Download Schedules**: Enable downloading class timetables (PDF/Image).

@@ -1,15 +1,17 @@
 import React from 'react';
 import { useApp } from '../services/store';
 import { UserRole } from '../types';
-import { 
-  LayoutDashboard, 
-  Users, 
-  BookOpen, 
-  CreditCard, 
-  FileText, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  Users,
+  BookOpen,
+  CreditCard,
+  FileText,
+  LogOut,
   School,
-  Database
+  Database,
+  GraduationCap,
+  HeartHandshake
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -26,11 +28,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
   const NavItem = ({ id, label, icon: Icon }: { id: string, label: string, icon: any }) => (
     <button
       onClick={() => onNavigate(id)}
-      className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${
-        activePage === id 
-          ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600' 
-          : 'text-gray-600 hover:bg-gray-50'
-      }`}
+      className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${activePage === id
+        ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600'
+        : 'text-gray-600 hover:bg-gray-50'
+        }`}
     >
       <Icon size={20} />
       {label}
@@ -46,7 +47,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
             <School size={24} />
           </div>
           <div>
-            <h1 className="font-bold text-gray-900 text-lg leading-tight">Google School</h1>
+            <h1 className="font-bold text-gray-900 text-lg leading-tight">NextGen School</h1>
             <p className="text-xs text-gray-500">Demo App</p>
           </div>
         </div>
@@ -55,13 +56,16 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
           {currentUser.role === UserRole.PRINCIPAL && (
             <>
               <NavItem id="dashboard" label="Overview" icon={LayoutDashboard} />
+              <NavItem id="students" label="Students" icon={Users} />
+              <NavItem id="teachers" label="Teachers" icon={GraduationCap} />
+              <NavItem id="parents" label="Parents" icon={HeartHandshake} />
             </>
           )}
 
           {currentUser.role === UserRole.TEACHER && (
-             <>
+            <>
               <NavItem id="dashboard" label="Gradebook" icon={BookOpen} />
-             </>
+            </>
           )}
 
           {currentUser.role === UserRole.PARENT && (
@@ -69,7 +73,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
               <NavItem id="dashboard" label="Family Overview" icon={Users} />
             </>
           )}
-          
+
           {currentUser.role === UserRole.STUDENT && (
             <NavItem id="dashboard" label="My Dashboard" icon={LayoutDashboard} />
           )}
@@ -83,7 +87,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
               <p className="text-xs text-gray-500 truncate capitalize">{currentUser.role.toLowerCase()}</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={logout}
             className="w-full flex items-center justify-center gap-2 text-red-600 hover:bg-red-50 p-2 rounded-md transition-colors text-sm font-medium"
           >

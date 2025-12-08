@@ -23,26 +23,26 @@ export const Login: React.FC = () => {
       {/* Left Side - Brand */}
       <div className="md:w-1/2 bg-blue-600 text-white p-12 flex flex-col justify-between relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-            </svg>
+          <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+          </svg>
         </div>
-        
+
         <div className="z-10">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm">
               <School size={32} />
             </div>
-            <h1 className="text-3xl font-bold tracking-tight">Google School</h1>
+            <h1 className="text-3xl font-bold tracking-tight">NextGen School</h1>
           </div>
           <p className="text-blue-100 text-lg max-w-md">
             The comprehensive management platform for modern education. Connects directors, teachers, parents, and students in one seamless ecosystem.
           </p>
         </div>
 
-        <div className="z-10 text-sm text-blue-200">
-          &copy; 2024 Google School Demo. Built with React & Tailwind.
-        </div>
+        <p className="mt-8 text-center text-xs text-gray-500">
+          &copy; {new Date().getFullYear()} NextGen School. All rights reserved.
+        </p>
       </div>
 
       {/* Right Side - Form */}
@@ -104,22 +104,22 @@ export const Login: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-             <button onClick={() => login(demoPrincipal!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
-                <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Principal</p>
-                <p className="text-sm font-medium truncate">{demoPrincipal?.name}</p>
-             </button>
-             <button onClick={() => login(demoTeacher!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
-                <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Teacher</p>
-                <p className="text-sm font-medium truncate">{demoTeacher?.name}</p>
-             </button>
-             <button onClick={() => login(demoParent!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
-                <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Parent</p>
-                <p className="text-sm font-medium truncate">{demoParent?.name}</p>
-             </button>
-             <button onClick={() => login(demoStudent!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
-                <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Student</p>
-                <p className="text-sm font-medium truncate">{demoStudent?.name}</p>
-             </button>
+            <button onClick={() => login(demoPrincipal!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
+              <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Principal</p>
+              <p className="text-sm font-medium truncate">{demoPrincipal?.name}</p>
+            </button>
+            <button onClick={() => login(demoTeacher!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
+              <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Teacher</p>
+              <p className="text-sm font-medium truncate">{demoTeacher?.name}</p>
+            </button>
+            <button onClick={() => login(demoParent!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
+              <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Parent</p>
+              <p className="text-sm font-medium truncate">{demoParent?.name}</p>
+            </button>
+            <button onClick={() => login(demoStudent!.email)} className="text-left p-3 rounded-lg border hover:border-blue-300 hover:bg-blue-50 transition-all group">
+              <p className="text-xs font-semibold text-gray-500 group-hover:text-blue-600">Student</p>
+              <p className="text-sm font-medium truncate">{demoStudent?.name}</p>
+            </button>
           </div>
         </div>
       </div>

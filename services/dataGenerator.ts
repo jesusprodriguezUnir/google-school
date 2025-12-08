@@ -14,9 +14,9 @@ import {
 } from '../types';
 
 // Helpers for Spanish Names
-const firstNamesMale = ["Santiago", "Mateo", "Sebastián", "Leonardo", "Matías", "Diego", "Alejandro", "Daniel"];
-const firstNamesFemale = ["Sofía", "Valentina", "Isabella", "Camila", "Mariana", "Lucía", "Victoria", "Daniela"];
-const lastNames = ["García", "Rodríguez", "Martínez", "Hernández", "López", "González", "Pérez", "Sánchez", "Ramírez", "Torres"];
+const firstNamesMale = ["Santiago", "Mateo", "Sebastián", "Leonardo", "Matías", "Diego", "Alejandro", "Daniel", "Lucas", "Tomás", "Gabriel", "Martín", "Nicolás", "Samuel", "David", "Juan", "Pedro", "Pablo", "Hugo", "Álvaro", "Adrián", "Enzo", "Leo", "Mario", "Manuel"];
+const firstNamesFemale = ["Sofía", "Valentina", "Isabella", "Camila", "Mariana", "Lucía", "Victoria", "Daniela", "Martina", "Elena", "Sara", "Carla", "Claudia", "Ana", "Carmen", "Paula", "Julia", "Alba", "Emma", "Lola", "Candela", "Vega", "Noa", "Olivia", "Abril"];
+const lastNames = ["García", "Rodríguez", "Martínez", "Hernández", "López", "González", "Pérez", "Sánchez", "Ramírez", "Torres", "Flores", "Rivera", "Gómez", "Díaz", "Reyes", "Morales", "Ortiz", "Castillo", "Moreno", "Jiménez", "Ruiz", "Muñoz", "Alvarez", "Romero", "Navarro"];
 
 const getRandomElement = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
@@ -134,18 +134,24 @@ export const generateSchoolData = (): SchoolData => {
 
       // 5. Generate Grades (3 Subjects)
       const subjects = ["Matemáticas", "Lengua", "Historia"];
+      const classIdx = classes.findIndex(c => c.id === cls.id);
+
       subjects.forEach((sub, subIdx) => {
+        let baseScore = Math.floor(Math.random() * 6) + 5; // Default 5-10
+        if (classIdx === 1) baseScore = Math.min(10, baseScore + 1); // High performing ("1º ESO B")
+        if (classIdx === 2) baseScore = Math.max(1, baseScore - 2); // Struggling ("2º ESO A")
+
         grades.push({
           id: `grade_${studentId}_${subIdx}`,
           studentId: studentId,
           subject: sub,
-          score: Math.floor(Math.random() * 6) + 5, // Random score 5-10
+          score: Math.min(10, Math.max(1, baseScore)),
           feedback: getRandomElement(["Buen trabajo", "Puede mejorar", "Excelente", "Necesita repasar"]),
           date: new Date().toISOString().split('T')[0]
         });
       });
 
-      // 6. Generate Invoices (3 types per student, assigned to parent 1)
+      // 6. Generate Invoices
       const invTypes = [InvoiceType.DINING, InvoiceType.TRANSPORT, InvoiceType.EXTRA];
       invTypes.forEach((type, invIdx) => {
         invoices.push({

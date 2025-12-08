@@ -6,6 +6,10 @@ import { TeacherDashboard } from './pages/TeacherDashboard';
 import { ParentDashboard } from './pages/ParentDashboard';
 import { StudentDashboard } from './pages/StudentDashboard';
 import { Layout } from './components/Layout';
+import { StudentsDirectory } from './pages/directory/StudentsDirectory';
+import { TeachersDirectory } from './pages/directory/TeachersDirectory';
+import { ParentsDirectory } from './pages/directory/ParentsDirectory';
+import { RevenueDirectory } from './pages/directory/RevenueDirectory';
 import { UserRole } from './types';
 
 const App: React.FC = () => {
@@ -23,7 +27,14 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (currentUser.role) {
       case UserRole.PRINCIPAL:
-        return <PrincipalDashboard />;
+        switch (activePage) {
+          case 'students': return <StudentsDirectory />;
+          case 'teachers': return <TeachersDirectory />;
+          case 'parents': return <ParentsDirectory />;
+          case 'invoices': return <RevenueDirectory initialTab="pending" />;
+          case 'financials': return <RevenueDirectory initialTab="collected" />;
+          default: return <PrincipalDashboard onNavigate={setActivePage} />;
+        }
       case UserRole.TEACHER:
         return <TeacherDashboard />;
       case UserRole.PARENT:
