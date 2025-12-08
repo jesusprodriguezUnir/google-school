@@ -86,7 +86,7 @@ export const generateSchoolData = (): SchoolData => {
       studentCount++;
       const studentName = generateName();
       const studentId = `u_student_${studentCount}`;
-      
+
       // Create 2 Parents for this student
       const parent1Name = generateName();
       const parent2Name = generateName();
@@ -101,7 +101,7 @@ export const generateSchoolData = (): SchoolData => {
         childrenIds: [studentId],
         avatar: `https://picsum.photos/200/200?random=${studentCount + 500}`
       };
-      
+
       const parent2: Parent = {
         id: parent2Id,
         name: parent2Name,
@@ -162,7 +162,7 @@ export const generateSchoolData = (): SchoolData => {
     content: 'Esperamos que este nuevo año escolar esté lleno de aprendizaje y crecimiento para todos.',
     date: '2023-09-01'
   });
-  
+
   classes.forEach(cls => {
     announcements.push({
       id: `ann_${cls.id}`,
@@ -173,6 +173,56 @@ export const generateSchoolData = (): SchoolData => {
       targetClassId: cls.id
     });
   });
+
+  // 8. Custom Demo Family (Multi-Child Parent)
+  const demoStudent1: Student = {
+    id: 'student_demo_1',
+    name: 'Victoria Torres',
+    email: 'victoria.student@googleschool.demo',
+    role: UserRole.STUDENT,
+    classId: classes[0].id,
+    parentIds: ['parent_demo_1'],
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Victoria'
+  };
+
+  const demoStudent2: Student = {
+    id: 'student_demo_2',
+    name: 'Lucas Torres',
+    email: 'lucas.student@googleschool.demo',
+    role: UserRole.STUDENT,
+    classId: classes[1].id,
+    parentIds: ['parent_demo_1'],
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lucas'
+  };
+
+  const demoParent: Parent = {
+    id: 'parent_demo_1',
+    name: 'María Torres',
+    email: 'maria.parent@googleschool.demo',
+    role: UserRole.PARENT,
+    childrenIds: [demoStudent1.id, demoStudent2.id],
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Maria'
+  };
+
+  // Add Demo Grades for both
+  const demoGrades = [
+    { id: 'g_d1_1', studentId: demoStudent1.id, subject: 'Matemáticas', score: 9, feedback: 'Excelente trabajo', date: '2023-11-01' },
+    { id: 'g_d1_2', studentId: demoStudent1.id, subject: 'Historia', score: 7, feedback: 'Buen progreso', date: '2023-11-02' },
+    { id: 'g_d2_1', studentId: demoStudent2.id, subject: 'Ciencias', score: 6, feedback: 'Necesita mejorar en lab', date: '2023-11-01' },
+    { id: 'g_d2_2', studentId: demoStudent2.id, subject: 'Inglés', score: 8, feedback: 'Very good!', date: '2023-11-03' },
+  ];
+  grades.push(...demoGrades);
+
+  // Add Demo Invoices
+  invoices.push({
+    id: 'inv_demo_1', parentId: demoParent.id, studentId: demoStudent1.id, amount: 120, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.DINING, dueDate: '2023-12-05'
+  });
+  invoices.push({
+    id: 'inv_demo_2', parentId: demoParent.id, studentId: demoStudent2.id, amount: 85, currency: 'EUR', status: InvoiceStatus.PENDING, type: InvoiceType.TRANSPORT, dueDate: '2023-12-10'
+  });
+
+  // Prepend to users so they are picked up by the Login Demo buttons
+  users.unshift(demoParent, demoStudent1, demoStudent2);
 
   return { users, classes, grades, invoices, announcements };
 };
