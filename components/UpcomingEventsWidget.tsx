@@ -2,11 +2,19 @@ import React from 'react';
 import { FileText, BookOpen, Bus, Calendar } from 'lucide-react';
 
 export const UpcomingEventsWidget: React.FC = () => {
+    // Generate relative dates
+    const getRelativeDate = (daysFromNow: number) => {
+        const date = new Date();
+        date.setDate(date.getDate() + daysFromNow);
+        const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', weekday: 'short' };
+        return date.toLocaleDateString('en-US', options);
+    };
+
     // Mock Events
     const events = [
-        { id: 1, title: 'Math Midterm', date: 'Oct 15, Fri', type: 'EXAM', icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-100' },
-        { id: 2, title: 'History Essay Due', date: 'Oct 18, Mon', type: 'HOMEWORK', icon: BookOpen, color: 'text-amber-600', bg: 'bg-amber-100' },
-        { id: 3, title: 'Science Museum Trip', date: 'Oct 20, Wed', type: 'TRIP', icon: Bus, color: 'text-emerald-600', bg: 'bg-emerald-100' },
+        { id: 1, title: 'Math Midterm', date: getRelativeDate(2), type: 'EXAM', icon: FileText, color: 'text-indigo-600', bg: 'bg-indigo-100' },
+        { id: 2, title: 'History Essay Due', date: getRelativeDate(5), type: 'HOMEWORK', icon: BookOpen, color: 'text-amber-600', bg: 'bg-amber-100' },
+        { id: 3, title: 'Science Museum Trip', date: getRelativeDate(7), type: 'TRIP', icon: Bus, color: 'text-emerald-600', bg: 'bg-emerald-100' },
     ];
 
     return (

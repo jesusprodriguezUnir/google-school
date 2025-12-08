@@ -13,8 +13,8 @@ Use this file to track new ideas, features, or improvements for Google School.
 - [ ] **Full App Testing**: Comprehensive testing (Unit, Integration, E2E) for the entire application.
 
 ## Dashboard Expansions
-- [ ] **Teacher View**: specific dashboard for Teachers (Grades, Attendance).
-- [ ] **Parent View**: specific dashboard for Parents (Child's Progress, Notices).
+- [ ] **Teacher View**: Specific dashboard for Teachers (Grades, Attendance).
+- [ ] **Parent View**: Specific dashboard for Parents (Child's Progress, Notices).
 
 ## Upcoming
 - [ ] 

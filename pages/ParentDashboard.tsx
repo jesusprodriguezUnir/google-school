@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../services/store';
 import { UserRole, InvoiceStatus } from '../types';
-import { CreditCard, Download, Mail, MessageSquare, User, Calendar } from 'lucide-react';
+import { CreditCard, Download, Mail, MessageSquare, Calendar } from 'lucide-react';
 import { StudentAttendanceWidget } from '../components/StudentAttendanceWidget';
 import { UpcomingEventsWidget } from '../components/UpcomingEventsWidget';
 import { InteractiveGradeCard } from '../components/InteractiveGradeCard';
