@@ -91,6 +91,7 @@ export const TeacherDashboard: React.FC = () => {
             <input
               type="text"
               placeholder="Search students..."
+              aria-label="Search students"
               className="w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             />
           </div>

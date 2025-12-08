@@ -20,7 +20,8 @@ export const SmartGradebook: React.FC<Props> = ({ students, grades, subjects, on
 
     const getAverage = (studentId: string) => {
         const studentGrades = subjects.map(s => getScore(studentId, s));
-        return studentGrades.reduce((a, b) => a + b, 0) / studentGrades.length;
+        const sum = studentGrades.reduce((a, b) => a + b, 0);
+        return studentGrades.length > 0 ? sum / studentGrades.length : 0;
     };
 
     // 1. Filter Logic
@@ -87,6 +88,7 @@ export const SmartGradebook: React.FC<Props> = ({ students, grades, subjects, on
                             <th
                                 className="p-4 font-medium w-1/4 cursor-pointer hover:bg-gray-100 transition-colors"
                                 onClick={() => handleSort('name')}
+                                aria-sort={sortConfig?.key === 'name' ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending') : 'none'}
                             >
                                 Student Name
                             </th>
@@ -96,6 +98,7 @@ export const SmartGradebook: React.FC<Props> = ({ students, grades, subjects, on
                             <th
                                 className="p-4 font-medium text-right cursor-pointer hover:bg-gray-100 transition-colors"
                                 onClick={() => handleSort('average')}
+                                aria-sort={sortConfig?.key === 'average' ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending') : 'none'}
                             >
                                 Average
                             </th>
@@ -128,6 +131,7 @@ export const SmartGradebook: React.FC<Props> = ({ students, grades, subjects, on
                                                         max="10"
                                                         value={score}
                                                         onChange={(e) => onUpdateGrade(student.id, subject, e.target.value)}
+                                                        aria-label={`${subject} grade for ${student.name}`}
                                                         className="w-full bg-transparent text-center py-2 outline-none font-medium appearance-none"
                                                     />
                                                 </div>
