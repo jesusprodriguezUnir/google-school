@@ -42,8 +42,44 @@ def seed_data():
     db.add(principal)
     db.commit()
 
-    print("Creating Teachers...")
+    print("Creating Specific Demo Users...")
     teachers = []
+    # 1. Demo Teacher matching Login.tsx
+    demo_teacher = User(
+        id='u_teacher_demo',
+        name='Prof. Santiago García García',
+        email='prof.santiago.garcia.garcia.prof@googleschool.demo',
+        hashed_password=get_password_hash('password'),
+        role=UserRole.TEACHER,
+        avatar='https://picsum.photos/200/200?random=99'
+    )
+    db.add(demo_teacher)
+    teachers.append(demo_teacher)
+    
+    # 2. Demo Parent & Student matching Login.tsx
+    demo_p_id = 'u_parent_demo'
+    demo_s_id = 'u_student_demo'
+    
+    demo_parent = User(
+        id=demo_p_id, name='María Torres', email='maria.torres.parent@googleschool.demo',
+        hashed_password=get_password_hash('password'), role=UserRole.PARENT,
+        avatar='https://picsum.photos/200/200?random=98'
+    )
+    demo_student = User(
+        id=demo_s_id, name='Victoria Torres', email='victoria.torres.student@googleschool.demo',
+        hashed_password=get_password_hash('password'), role=UserRole.STUDENT,
+        class_id='class_0', # Assign to first class
+        avatar='https://picsum.photos/200/200?random=97'
+    )
+    
+    db.add(demo_parent)
+    db.add(demo_student)
+    demo_student.parents.append(demo_parent)
+    
+    # Add some demo grades/invoices for them
+    db.commit()
+
+    print("Creating Random Teachers...")
     for i in range(6):
         name = generate_name()
         teacher = User(

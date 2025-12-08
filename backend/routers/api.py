@@ -33,6 +33,30 @@ def get_dashboard_summary(
         "total_revenue_collected": revenue_collected
     }
 
+@router.get("/bootstrap", response_model=schemas.BootstrapData)
+def get_bootstrap_data(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Returns the full initial state for the application.
+    In a real large-scale app, we would fetch this granularly, 
+    but for this specific dashboard architecture, we sync the state on load.
+    """
+    users = db.query(models.User).all()
+    classes = db.query(models.ClassGroup).all()
+    grades = db.query(models.Grade).all()
+    invoices = db.query(models.Invoice).all()
+    announcements = db.query(models.Announcement).all()
+    
+    return {
+        "users": users,
+        "classes": classes,
+        "grades": grades,
+        "invoices": invoices,
+        "announcements": announcements
+    }
+
 @router.get("/dashboard/charts", response_model=schemas.DashboardCharts)
 def get_dashboard_charts(
     current_user: models.User = Depends(get_current_user),

@@ -1,12 +1,20 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { generateSchoolData } from './dataGenerator';
+import { authService } from './api';
 import { SchoolData, User, UserRole, Grade } from '../types';
+
+const EMPTY_DATA: SchoolData = {
+  users: [],
+  classes: [],
+  grades: [],
+  invoices: [],
+  announcements: []
+};
 
 // --- Context Definition ---
 interface AppContextType {
   data: SchoolData;
   currentUser: User | null;
-  login: (email: string) => Promise<void>;
+  login: (email: string, password?: string) => Promise<void>;
   logout: () => void;
   updateGrade: (grade: Grade) => void;
   updateUser: (user: User) => void;
@@ -21,28 +29,52 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // --- Provider Component ---
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [data, setData] = useState<SchoolData | null>(null);
+  const [data, setData] = useState<SchoolData>(EMPTY_DATA);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize Data
+  // Initialize Data - Fetch from Backend if token exists
   useEffect(() => {
-    const loadedData = generateSchoolData();
-    console.log("Database initialized:", loadedData);
-    setData(loadedData);
-    setLoading(false);
+    const initApp = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const [user, bootstrapData] = await Promise.all([
+            authService.getCurrentUser(),
+            authService.getBootstrapData()
+          ]);
+          setCurrentUser(user);
+          setData(bootstrapData);
+        } catch (error) {
+          console.error("Failed to re-hydrate session", error);
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
+    };
+    initApp();
   }, []);
 
-  const login = async (email: string) => {
+  const login = async (email: string, password?: string) => {
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 600)); // Simulate network
-    const user = data?.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (user) {
+    try {
+      // Use provided password or default to 'password' for demo accounts
+      const passwordToUse = password || 'password';
+      await authService.login(email, passwordToUse);
+
+      const [user, bootstrapData] = await Promise.all([
+        authService.getCurrentUser(),
+        authService.getBootstrapData()
+      ]);
+
       setCurrentUser(user);
-    } else {
-      alert("User not found. Try the demo accounts.");
+      setData(bootstrapData);
+    } catch (error) {
+      console.error("Login failed", error);
+      alert("Login failed. Check console for details.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const logout = () => {
@@ -90,13 +122,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setData({ ...data, invoices: data.invoices.filter(i => i.id !== invoiceId) });
   };
 
-  if (!data) {
-    return React.createElement(
-      'div',
-      { className: "h-screen flex items-center justify-center" },
-      "Initializing Database..."
-    );
-  }
+
 
   return React.createElement(
     AppContext.Provider,

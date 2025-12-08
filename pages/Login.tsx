@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
 import { useApp } from '../services/store';
+import { authService } from '../services/api';
 import { UserRole } from '../types';
-import { School, ArrowRight, Lock, User } from 'lucide-react';
+import { School, ArrowRight, Lock, User, UserPlus } from 'lucide-react';
 
 export const Login: React.FC = () => {
-  const { login, data, loading } = useApp();
+  const { login, loading } = useApp();
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  // Login State
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('password');
 
-  // Find demo users for quick login buttons
-  const demoPrincipal = data.users.find(u => u.role === UserRole.PRINCIPAL);
-  const demoTeacher = data.users.find(u => u.role === UserRole.TEACHER);
-  const demoParent = data.users.find(u => u.role === UserRole.PARENT);
-  const demoStudent = data.users.find(u => u.role === UserRole.STUDENT);
+  // Register State
+  const [regName, setRegName] = useState('');
+  const [regEmail, setRegEmail] = useState('');
+  const [regPassword, setRegPassword] = useState('password');
+  const [regRole, setRegRole] = useState<UserRole>(UserRole.STUDENT);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Hardcoded Demo Accounts for Quick Access
+  const demoPrincipal = { name: 'Director Roberto Gómez', email: 'director@googleschool.demo' };
+  const demoTeacher = { name: 'Prof. Santiago García García', email: 'prof.santiago.garcia.garcia.prof@googleschool.demo' };
+  const demoParent = { name: 'María Torres', email: 'maria.torres.parent@googleschool.demo' };
+  const demoStudent = { name: 'Victoria Torres', email: 'victoria.torres.student@googleschool.demo' };
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email);
+    await login(email, password);
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await authService.register(regName, regEmail, regPassword, regRole);
+      alert("Account created! Logging you in...");
+      await login(regEmail, regPassword);
+    } catch (error: any) {
+      console.error(error);
+      alert("Registration failed: " + (error.response?.data?.detail || error.message));
+    }
   };
 
   return (
@@ -48,51 +71,120 @@ export const Login: React.FC = () => {
       {/* Right Side - Form */}
       <div className="md:w-1/2 p-8 md:p-12 flex items-center justify-center">
         <div className="w-full max-w-md">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Welcome back</h2>
-            <p className="text-gray-500">Please sign in to your account</p>
+          <div className="mb-8 flex justify-between items-end">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">{isRegistering ? 'Create Account' : 'Welcome back'}</h2>
+              <p className="text-gray-500">{isRegistering ? 'Join NextGen School today' : 'Please sign in to your account'}</p>
+            </div>
+            <button
+              onClick={() => setIsRegistering(!isRegistering)}
+              className="text-sm text-blue-600 hover:underline font-medium"
+            >
+              {isRegistering ? 'I have an account' : 'Create an account'}
+            </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 mb-8">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 text-gray-400" size={20} />
+          {isRegistering ? (
+            <form onSubmit={handleRegister} className="space-y-4 mb-8">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  placeholder="name@school.demo"
+                  type="text"
+                  value={regName}
+                  onChange={(e) => setRegName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="John Doe"
                   required
                 />
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                 <input
-                  type="password"
-                  value="demo123"
-                  readOnly
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
+                  type="email"
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="john@example.com"
+                  required
                 />
               </div>
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select
+                  value={regRole}
+                  onChange={(e) => setRegRole(e.target.value as UserRole)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value={UserRole.STUDENT}>Student</option>
+                  <option value={UserRole.TEACHER}>Teacher</option>
+                  <option value={UserRole.PARENT}>Parent</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input
+                  type="password"
+                  value={regPassword}
+                  onChange={(e) => setRegPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  required
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-            >
-              {loading ? 'Signing in...' : (
-                <>
-                  Sign In <ArrowRight size={18} />
-                </>
-              )}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              >
+                {loading ? 'Creating Account...' : (
+                  <>
+                    Sign Up <UserPlus size={18} />
+                  </>
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleLogin} className="space-y-4 mb-8">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 text-gray-400" size={20} />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    placeholder="name@school.demo"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+                  <input
+                    type="password"
+                    value={password} // Now editable!
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              >
+                {loading ? 'Signing in...' : (
+                  <>
+                    Sign In <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">

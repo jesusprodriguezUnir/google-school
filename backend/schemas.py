@@ -61,14 +61,16 @@ class ClassGroupResponse(ClassGroupBase):
     class Config:
         from_attributes = True
 
-class UserBase(BaseModel):
-    id: str
+class UserCommon(BaseModel):
     name: str
     email: str
     role: UserRole
-    avatar: Optional[str] = None
+    avatar: Optional[str] = 'https://picsum.photos/200'
 
-class UserCreate(UserBase):
+class UserBase(UserCommon):
+    id: str
+
+class UserCreate(UserCommon):
     password: str
 
 class UserResponse(UserBase):
@@ -77,6 +79,13 @@ class UserResponse(UserBase):
 
     class Config:
         from_attributes = True
+
+class BootstrapData(BaseModel):
+    users: List[UserResponse]
+    classes: List[ClassGroupResponse]
+    grades: List[GradeResponse]
+    invoices: List[InvoiceResponse]
+    announcements: List[AnnouncementResponse]
 
 class DashboardSummary(BaseModel):
     total_students: int
