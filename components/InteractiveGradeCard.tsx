@@ -11,6 +11,13 @@ interface Props {
 export const InteractiveGradeCard: React.FC<Props> = ({ grade }) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    // Helper to get relative date for upcoming test
+    const getUpcomingTestDate = () => {
+        const date = new Date();
+        date.setDate(date.getDate() + 10);
+        return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    };
+
     // Determine trend (mock logic)
     const trend = grade.score >= 8 ? 'up' : grade.score >= 5 ? 'flat' : 'down';
     const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
@@ -114,11 +121,7 @@ export const InteractiveGradeCard: React.FC<Props> = ({ grade }) => {
                                             </h4>
                                             <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
                                                 <p className="font-bold text-amber-900 text-sm">Unit 4 Test</p>
-                                                <p className="text-xs text-amber-700">{(() => {
-                                                    const date = new Date();
-                                                    date.setDate(date.getDate() + 10);
-                                                    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-                                                })()}</p>
+                                                <p className="text-xs text-amber-700">{getUpcomingTestDate()}</p>
                                             </div>
                                         </div>
 
