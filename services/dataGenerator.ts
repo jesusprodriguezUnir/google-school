@@ -67,15 +67,23 @@ export const generateSchoolData = (): SchoolData => {
     users.push(teacher);
   }
 
-  // 3. Create 3 Classes (Assign to first 3 teachers)
+  // 3. Create 3 Classes
+  // We want the first teacher (Demo Teacher) to have 2 classes to properly test the "Multi-Class" selector.
   const classNames = ["1º ESO A", "1º ESO B", "2º ESO A"];
+
   classNames.forEach((name, idx) => {
+    // Logic: 
+    // Class 0 ("1º ESO A") -> Teacher 0
+    // Class 1 ("1º ESO B") -> Teacher 0 (Multi-class!)
+    // Class 2 ("2º ESO A") -> Teacher 1
+    const teacherIndex = idx === 1 ? 0 : idx;
+
     const classGroup: ClassGroup = {
       id: `class_${idx}`,
       name: name,
-      teacherId: teachers[idx].id
+      teacherId: teachers[teacherIndex].id
     };
-    teachers[idx].assignedClassIds.push(classGroup.id);
+    teachers[teacherIndex].assignedClassIds.push(classGroup.id);
     classes.push(classGroup);
   });
 
