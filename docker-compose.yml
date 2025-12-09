@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./school_app.db:/app/school_app.db
+    environment:
+      # Add any environment variables here, e.g.
+      # DATABASE_URL: sqlite:///./school_app.db
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

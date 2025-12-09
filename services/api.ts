@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { SchoolData, User } from '../types';
 
-const API_URL = 'http://localhost:8000';
-
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: '/api',
 });
 
 // Interceptor to add token to requests
