@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useApp } from '../../services/store';
 import { userService } from '../../services/api';
 import { UserRole } from '../../types';
-import { Search, Mail, BookOpen, Edit2, X, Save } from 'lucide-react';
+import { Search, Mail, Edit2, X, Save } from 'lucide-react';
 
 export const TeachersDirectory: React.FC = () => {
     const { data } = useApp();

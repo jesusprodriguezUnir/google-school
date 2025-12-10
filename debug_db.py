@@ -1,5 +1,5 @@
 from backend.database import SessionLocal
-from backend.models import ClassGroup, User, UserRole, ClassSubject
+from backend.models import ClassGroup, ClassSubject
 
 def debug_db():
     db = SessionLocal()

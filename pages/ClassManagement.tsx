@@ -156,7 +156,7 @@ export default function ClassManagement() {
         }
 
         try {
-            const res = await curriculumService.applyStandard(selectedClass.id, grade);
+            await curriculumService.applyStandard(selectedClass.id, grade);
             // alert(res.message);
             fetchSubjects(selectedClass.id);
         } catch (e) {
@@ -469,7 +469,7 @@ export default function ClassManagement() {
                                                     required
                                                     min="1"
                                                     max="10"
-                                                    className="mt-1 block w-ful rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
                                                     value={newSubjectHours}
                                                     onChange={(e) => setNewSubjectHours(Number(e.target.value))}
                                                 />

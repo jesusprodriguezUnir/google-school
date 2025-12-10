@@ -45,6 +45,7 @@ def delete_template(template_id: str, db: Session = Depends(get_db)):
     
     db.delete(db_template)
     db.commit()
+    return {"message": "Template deleted successfully"}
 @router.post("/apply-standard/{class_id}")
 def apply_standard(class_id: str, grade: int, db: Session = Depends(get_db)):
     # 1. Get Class

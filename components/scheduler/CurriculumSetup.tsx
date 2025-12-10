@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ClassSubject, User } from '../../types';
 import { scheduleService } from '../../services/scheduleService';
-import { authService } from '../../services/api';
 
 interface Props {
     classId: string;

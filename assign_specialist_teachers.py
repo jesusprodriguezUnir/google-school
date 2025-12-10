@@ -2,7 +2,6 @@
 import urllib.request
 import json
 import urllib.error
-import time
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -45,11 +44,10 @@ def create_or_get_teacher(name, email, subject, hours=25):
     # Since I am running this locally and I have access to the code, I can write a script
     # that uses the `database` module directly to avoid Auth checks, same as `seed_schedule.py`.
     # It allows direct DB manipulation.
-    pass
+    return None
 
 # Direct DB Main
-from backend import models, database, auth_utils
-from sqlalchemy.orm import Session
+from backend import models, database
 import uuid
 
 def assign_specialists():
