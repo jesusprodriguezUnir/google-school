@@ -44,7 +44,16 @@ def get_bootstrap_data(
     but for this specific dashboard architecture, we sync the state on load.
     """
     users = db.query(models.User).all()
-    classes = db.query(models.ClassGroup).all()
+    
+    # Filter Classes for Teachers
+    class_query = db.query(models.ClassGroup)
+    if current_user.role == models.UserRole.TEACHER:
+        class_query = class_query.outerjoin(models.ClassSubject, models.ClassGroup.id == models.ClassSubject.class_id)\
+                     .filter(
+                         (models.ClassGroup.teacher_id == current_user.id) | 
+                         (models.ClassSubject.teacher_id == current_user.id)
+                     ).distinct()
+    classes = class_query.all()
     grades = db.query(models.Grade).all()
     invoices = db.query(models.Invoice).all()
     announcements = db.query(models.Announcement).all()

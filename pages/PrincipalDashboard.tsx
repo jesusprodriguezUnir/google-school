@@ -5,6 +5,9 @@ import { RecentInvoicesTable } from '../components/RecentInvoicesTable';
 import { ClassesWidget } from '../components/ClassesWidget';
 import { AttendanceWidget } from '../components/AttendanceWidget';
 import { CalendarWidget } from '../components/CalendarWidget';
+import ScheduleManager from '../components/scheduler/ScheduleManager';
+import { Dialog } from '@headlessui/react';
+import { X } from 'lucide-react';
 import {
   Card,
   Grid,
@@ -30,6 +33,7 @@ interface PrincipalDashboardProps {
 
 export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNavigate = () => { } }) => {
   const { data } = useApp();
+  const [scheduleClass, setScheduleClass] = React.useState<{ id: string, teacherId: string } | null>(null);
 
   // Color class mapping for Tailwind CSS
   const colorClasses: Record<string, { bg: string; text: string }> = {
@@ -218,12 +222,6 @@ export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNaviga
       </Grid>
 
       {/* Tables and Widgets */}
-      import {ClassesWidget} from '../components/ClassesWidget';
-
-      // ... (existing imports)
-
-      // Inside component return:
-      {/* Tables and Widgets */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         {/* Classes Overview (Span 2 on large screens) */}
@@ -232,6 +230,7 @@ export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNaviga
             classes={data.classes}
             users={data.users}
             onManage={() => onNavigate('classes')}
+            onSchedule={(classId, teacherId) => setScheduleClass({ id: classId, teacherId })}
           />
         </div>
 
@@ -257,6 +256,39 @@ export const PrincipalDashboard: React.FC<PrincipalDashboardProps> = ({ onNaviga
           </Card>
         </div>
       </div>
+
+      {/* Schedule Modal */}
+      <Dialog
+        open={!!scheduleClass}
+        onClose={() => setScheduleClass(null)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto w-full max-w-4xl rounded-xl bg-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b bg-gray-50">
+              <Dialog.Title className="text-lg font-bold">Gestión de Horarios</Dialog.Title>
+              <button
+                onClick={() => setScheduleClass(null)}
+                className="p-1 hover:bg-gray-200 rounded-full transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto flex-1">
+              {scheduleClass && (
+                <ScheduleManager
+                  classId={scheduleClass.id}
+                  teacherId={scheduleClass.teacherId}
+                  teachers={teachers}
+                />
+              )}
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 };

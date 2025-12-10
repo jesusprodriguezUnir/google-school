@@ -6,9 +6,10 @@ interface ClassesWidgetProps {
     classes: ClassGroup[];
     users: User[]; // To find teachers and count students
     onManage: () => void;
+    onSchedule: (classId: string, teacherId: string) => void;
 }
 
-export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, onManage }) => {
+export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, onManage, onSchedule }) => {
     const teachers = users.filter(u => u.role === UserRole.TEACHER);
     const students = users.filter(u => u.role === UserRole.STUDENT);
 
@@ -44,6 +45,7 @@ export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, on
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Level</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Teacher</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Students</th>
+                            <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
@@ -68,11 +70,19 @@ export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, on
                                             <span>{getStudentCount(cls.id)}</span>
                                         </div>
                                     </td>
+                                    <td className="p-4 text-gray-600 text-right">
+                                        <button
+                                            onClick={() => onSchedule(cls.id, cls.teacher_id)}
+                                            className="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100"
+                                        >
+                                            Horario
+                                        </button>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={4} className="p-8 text-center text-gray-400">
+                                <td colSpan={5} className="p-8 text-center text-gray-400">
                                     No classes found. Click "Manage Classes" to add one.
                                 </td>
                             </tr>

@@ -54,6 +54,7 @@ export interface ClassGroup {
   name: string;
   level: EducationLevel;
   teacher_id: string;
+  subjects?: ClassSubject[];
 }
 
 export interface Grade {
@@ -92,4 +93,29 @@ export interface SchoolData {
   grades: Grade[];
   invoices: Invoice[];
   announcements: Announcement[];
+}
+
+export interface TeacherAvailability {
+  id: string;
+  teacher_id: string;
+  day_of_week: string; // MON, TUE ...
+  slot_index: number;
+}
+
+export interface ClassSubject {
+  id: string;
+  class_id: string;
+  name: string;
+  teacher_id?: string;
+  hours_weekly: number;
+}
+
+export interface ScheduleSlot {
+  id: string;
+  class_id: string;
+  subject_id: string;
+  day_of_week: string;
+  slot_index: number;
+  subject_name?: string;
+  teacher_name?: string;
 }
