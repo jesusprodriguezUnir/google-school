@@ -173,8 +173,9 @@ class ScheduleSlotResponse(ScheduleSlotCreate):
 
 class SubjectTemplateBase(BaseModel):
     name: str
-    default_hours: int
+    default_hours: float
     education_level: EducationLevel
+    grade: Optional[int] = None
 
 class SubjectTemplateCreate(SubjectTemplateBase):
     pass

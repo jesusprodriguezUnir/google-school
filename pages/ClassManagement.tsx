@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { Plus, X, Users, BookOpen, Settings, Trash2 } from 'lucide-react';
 import { useApp } from '../services/store';
-import api, { curriculumService } from '../services/api';
+import api, { curriculumService, classService } from '../services/api';
 
 interface Teacher {
     id: string;
@@ -31,6 +31,7 @@ interface SubjectTemplate {
     name: string;
     default_hours: number;
     education_level: string;
+    grade?: number;
 }
 
 export default function ClassManagement() {
@@ -50,6 +51,8 @@ export default function ClassManagement() {
     const [newTemplateName, setNewTemplateName] = useState('');
     const [newTemplateHours, setNewTemplateHours] = useState(1);
     const [newTemplateLevel, setNewTemplateLevel] = useState('Primaria');
+    const [newTemplateGrade, setNewTemplateGrade] = useState<number | ''>('');
+    const [viewGrade, setViewGrade] = useState<number | 'ALL'>('ALL'); // Filter for table
 
     useEffect(() => {
         if (selectedClass) {
@@ -75,8 +78,10 @@ export default function ClassManagement() {
             const data = await curriculumService.getTemplates(level);
             // Sort by name
             setTemplates(data.sort((a: any, b: any) => a.name.localeCompare(b.name)));
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error fetching templates", error);
+            const msg = error.response?.data?.detail || error.message;
+            alert(`Error cargando estándares: ${msg}`);
         }
     };
 
@@ -108,6 +113,58 @@ export default function ClassManagement() {
     const [newSubjectHours, setNewSubjectHours] = useState(1);
     const [newSubjectTeacher, setNewSubjectTeacher] = useState('');
 
+    const handleClearTeachers = async () => {
+        if (!selectedClass || subjects.length === 0) return;
+        if (!confirm(`¿Seguro que quieres eliminar la asignación de profesores de todas las asignaturas de ${selectedClass.name}?`)) return;
+
+        try {
+            await Promise.all(subjects.map(s =>
+                classService.updateSubject(s.id, {
+                    name: s.name,
+                    hours_weekly: s.hours_weekly,
+                    teacher_id: null
+                })
+            ));
+            fetchSubjects(selectedClass.id);
+        } catch (error) {
+            console.error(error);
+            setErrorMsg("Error al limpiar profesores");
+        }
+    };
+
+    const handleApplyStandard = async () => {
+        if (!selectedClass) return;
+
+        // Try to infer grade from name (e.g. "1º A" -> 1)
+        let defaultGrade = "1";
+        const match = selectedClass.name.match(/(\d)/);
+        if (match) {
+            defaultGrade = match[1];
+        }
+
+        const input = prompt(`Introduce el curso (1-6) para cargar las asignaturas oficiales de Madrid:`, defaultGrade);
+        if (!input) return;
+        const grade = parseInt(input);
+
+        if (isNaN(grade) || grade < 1 || grade > 6) {
+            alert("Curso inválido. Debe ser un número entre 1 y 6.");
+            return;
+        }
+
+        if (subjects.length > 0) {
+            if (!confirm("Esta clase ya tiene asignaturas. ¿Quieres añadir las oficiales además de las existentes?")) return;
+        }
+
+        try {
+            const res = await curriculumService.applyStandard(selectedClass.id, grade);
+            // alert(res.message);
+            fetchSubjects(selectedClass.id);
+        } catch (e) {
+            console.error(e);
+            alert("Error al cargar estándar. Asegúrate de que los estándares están cargados en la base de datos.");
+        }
+    };
+
     const handleCreateSubject = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedClass) return;
@@ -137,7 +194,8 @@ export default function ClassManagement() {
             await curriculumService.createTemplate({
                 name: newTemplateName,
                 default_hours: newTemplateHours,
-                education_level: newTemplateLevel
+                education_level: newTemplateLevel,
+                grade: newTemplateGrade === '' ? undefined : Number(newTemplateGrade)
             });
             setNewTemplateName('');
             fetchTemplates(); // Refresh all
@@ -254,13 +312,29 @@ export default function ClassManagement() {
                                     <h2 className="text-xl font-bold text-gray-800 flex items-center">
                                         <BookOpen className="w-5 h-5 mr-2 text-indigo-600" /> Asignaturas y Profesores
                                     </h2>
-                                    <button
-                                        onClick={() => setIsClassModalOpen(true)}
-                                        className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
-                                    >
-                                        <Plus className="w-4 h-4 mr-2" />
-                                        Nueva Asignatura
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={handleClearTeachers}
+                                            className="flex items-center px-4 py-2 bg-white text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition-colors shadow-sm text-sm"
+                                        >
+                                            <Trash2 className="w-4 h-4 mr-2" />
+                                            Desasignar
+                                        </button>
+                                        <button
+                                            onClick={handleApplyStandard}
+                                            className="flex items-center px-4 py-2 bg-white text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors shadow-sm text-sm"
+                                        >
+                                            <BookOpen className="w-4 h-4 mr-2" />
+                                            Cargar Oficial
+                                        </button>
+                                        <button
+                                            onClick={() => setIsClassModalOpen(true)}
+                                            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+                                        >
+                                            <Plus className="w-4 h-4 mr-2" />
+                                            Nueva Asignatura
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="overflow-x-auto">
@@ -493,14 +567,26 @@ export default function ClassManagement() {
                                                         onChange={e => setNewTemplateName(e.target.value)}
                                                     />
                                                 </div>
-                                                <div>
-                                                    <label className="block text-xs font-medium text-gray-500">Horas</label>
-                                                    <input
-                                                        type="number" required min="1"
-                                                        className="w-full border p-2 rounded text-sm"
-                                                        value={newTemplateHours}
-                                                        onChange={e => setNewTemplateHours(Number(e.target.value))}
-                                                    />
+                                                <div className="flex gap-2">
+                                                    <div className="w-1/2">
+                                                        <label className="block text-xs font-medium text-gray-500">Horas</label>
+                                                        <input
+                                                            type="number" required min="1" step="0.25"
+                                                            className="w-full border p-2 rounded text-sm"
+                                                            value={newTemplateHours}
+                                                            onChange={e => setNewTemplateHours(Number(e.target.value))}
+                                                        />
+                                                    </div>
+                                                    <div className="w-1/2">
+                                                        <label className="block text-xs font-medium text-gray-500">Curso (Opcional)</label>
+                                                        <input
+                                                            type="number" min="1" max="6"
+                                                            className="w-full border p-2 rounded text-sm"
+                                                            placeholder="Ej. 1"
+                                                            value={newTemplateGrade}
+                                                            onChange={e => setNewTemplateGrade(e.target.value === '' ? '' : Number(e.target.value))}
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-medium text-gray-500">Nivel</label>
@@ -522,44 +608,70 @@ export default function ClassManagement() {
 
                                         {/* List of Standards */}
                                         <div className="col-span-2">
-                                            <div className="flex gap-2 mb-2">
-                                                {['Infantil', 'Primaria', 'Secundaria'].map(l => (
-                                                    <button
-                                                        key={l}
-                                                        onClick={() => fetchTemplates(l)}
-                                                        className={`px-3 py-1 text-xs rounded-full border ${templates.length > 0 && templates[0].education_level === l ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-white text-gray-600 border-gray-200'}`}
-                                                    >
-                                                        {l}
-                                                    </button>
-                                                ))}
-                                                <button onClick={() => fetchTemplates()} className="px-3 py-1 text-xs text-gray-500 underline">Ver Todos</button>
+                                            <div className="flex flex-col gap-2 mb-2">
+                                                <div className="flex gap-2">
+                                                    {['Infantil', 'Primaria', 'Secundaria'].map(l => (
+                                                        <button
+                                                            key={l}
+                                                            onClick={() => { fetchTemplates(l); setViewGrade('ALL'); }}
+                                                            className={`px-3 py-1 text-xs rounded-full border ${templates.length > 0 && templates[0].education_level === l ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-white text-gray-600 border-gray-200'}`}
+                                                        >
+                                                            {l}
+                                                        </button>
+                                                    ))}
+                                                    <button onClick={() => { fetchTemplates(); setViewGrade('ALL'); }} className="px-3 py-1 text-xs text-gray-500 underline">Ver Todos</button>
+                                                </div>
+                                                {/* Grade Sub-filter */}
+                                                {(templates.length > 0 && templates[0].education_level === 'Primaria') && (
+                                                    <div className="flex gap-1 overflow-x-auto pb-1">
+                                                        <button
+                                                            onClick={() => setViewGrade('ALL')}
+                                                            className={`px-2 py-0.5 text-xs rounded border ${viewGrade === 'ALL' ? 'bg-gray-200 font-bold' : 'bg-white'}`}
+                                                        >
+                                                            Todos
+                                                        </button>
+                                                        {[1, 2, 3, 4, 5, 6].map(g => (
+                                                            <button
+                                                                key={g}
+                                                                onClick={() => setViewGrade(g)}
+                                                                className={`px-2 py-0.5 text-xs rounded border ${viewGrade === g ? 'bg-blue-50 border-blue-300 font-bold' : 'bg-white'}`}
+                                                            >
+                                                                {g}º
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
-                                            <div className="overflow-y-auto max-h-60 border rounded-lg">
+                                            <div className="overflow-y-auto max-h-96 border rounded-lg">
                                                 <table className="min-w-full divide-y divide-gray-200">
-                                                    <thead className="bg-gray-50">
+                                                    <thead className="bg-gray-50 sticky top-0 z-10">
                                                         <tr>
                                                             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Asignatura</th>
-                                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Nivel</th>
+                                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Nivel/Curso</th>
                                                             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Horas</th>
                                                             <th className="px-4 py-2"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                        {templates.map(t => (
-                                                            <tr key={t.id}>
-                                                                <td className="px-4 py-2 text-sm text-gray-900">{t.name}</td>
-                                                                <td className="px-4 py-2 text-xs text-gray-500">{t.education_level}</td>
-                                                                <td className="px-4 py-2 text-sm text-gray-500">{t.default_hours}</td>
-                                                                <td className="px-4 py-2 text-right">
-                                                                    <button onClick={() => handleDeleteTemplate(t.id)} className="text-red-400 hover:text-red-600">
-                                                                        <Trash2 className="w-4 h-4" />
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
-                                                        {templates.length === 0 && (
+                                                        {templates
+                                                            .filter(t => viewGrade === 'ALL' || t.grade === viewGrade)
+                                                            .map(t => (
+                                                                <tr key={t.id}>
+                                                                    <td className="px-4 py-2 text-sm text-gray-900">{t.name}</td>
+                                                                    <td className="px-4 py-2 text-xs text-gray-500">
+                                                                        {t.education_level} {t.grade ? `- ${t.grade}º` : ''}
+                                                                    </td>
+                                                                    <td className="px-4 py-2 text-sm text-gray-500">{t.default_hours}</td>
+                                                                    <td className="px-4 py-2 text-right">
+                                                                        <button onClick={() => handleDeleteTemplate(t.id)} className="text-red-400 hover:text-red-600">
+                                                                            <Trash2 className="w-4 h-4" />
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        {templates.filter(t => viewGrade === 'ALL' || t.grade === viewGrade).length === 0 && (
                                                             <tr>
-                                                                <td colSpan={4} className="p-4 text-center text-sm text-gray-500">No hay estándares definidos para este nivel.</td>
+                                                                <td colSpan={4} className="p-4 text-center text-sm text-gray-500">No hay estándares para esta selección.</td>
                                                             </tr>
                                                         )}
                                                     </tbody>

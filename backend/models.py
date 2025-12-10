@@ -174,5 +174,6 @@ class SubjectTemplate(Base):
 
     id = Column(String, primary_key=True, index=True)
     name = Column(String)
-    default_hours = Column(Integer, default=1)
+    default_hours = Column(Float, default=1.0) # Changed to Float to support 5.25 etc
     education_level = Column(Enum(EducationLevel))
+    grade = Column(Integer, nullable=True) # 1, 2, 3... for specific grade levels
