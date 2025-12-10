@@ -87,6 +87,7 @@ class UserResponse(UserBase):
     class_id: Optional[str] = None # For Students
     max_weekly_hours: Optional[int] = None # For Teachers
     specialization: Optional[str] = None # For Teachers
+    children: List['UserResponse'] = [] # For Parents
 
     class Config:
         from_attributes = True
@@ -96,6 +97,16 @@ class StudentUpdate(BaseModel):
     email: Optional[str] = None
     class_id: Optional[str] = None
     avatar: Optional[str] = None
+
+    avatar: Optional[str] = None
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    role: Optional[UserRole] = None
+    avatar: Optional[str] = None
+    specialization: Optional[str] = None
+    max_weekly_hours: Optional[int] = None
 
 class BootstrapData(BaseModel):
     users: List[UserResponse]
@@ -169,3 +180,5 @@ class SubjectTemplateResponse(SubjectTemplateBase):
     id: str
     class Config:
         from_attributes = True
+
+UserResponse.update_forward_refs()
