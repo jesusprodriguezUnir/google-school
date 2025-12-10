@@ -10,6 +10,7 @@ import { StudentsDirectory } from './pages/directory/StudentsDirectory';
 import { TeachersDirectory } from './pages/directory/TeachersDirectory';
 import { ParentsDirectory } from './pages/directory/ParentsDirectory';
 import { RevenueDirectory } from './pages/directory/RevenueDirectory';
+import { DatabaseSchemaPage } from './pages/admin/DatabaseSchemaPage';
 import ClassManagement from './pages/ClassManagement';
 import { UserRole } from './types';
 
@@ -34,7 +35,9 @@ const App: React.FC = () => {
           case 'parents': return <ParentsDirectory />;
           case 'classes': return <ClassManagement />;
           case 'invoices': return <RevenueDirectory initialTab="pending" />;
+          case 'invoices': return <RevenueDirectory initialTab="pending" />;
           case 'financials': return <RevenueDirectory initialTab="collected" />;
+          case 'schema': return <DatabaseSchemaPage />;
           default: return <PrincipalDashboard onNavigate={setActivePage} />;
         }
       case UserRole.TEACHER:

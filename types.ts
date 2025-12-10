@@ -54,6 +54,7 @@ export interface ClassGroup {
   name: string;
   level: EducationLevel;
   teacher_id: string;
+  subjects?: ClassSubject[];
 }
 
 export interface Grade {

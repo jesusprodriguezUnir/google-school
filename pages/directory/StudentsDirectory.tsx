@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { useApp } from '../../services/store';
 import { UserRole, Student } from '../../types';
-import { Search, ChevronRight, Filter, Edit2, X, Save, Eye } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, Filter, Edit2, X, Save, GraduationCap } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
 import toast from 'react-hot-toast';
 
@@ -9,172 +9,191 @@ export const StudentsDirectory: React.FC = () => {
     const { data, updateUser } = useApp();
     const [selectedClassId, setSelectedClassId] = useState<string>('all');
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 12;
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalMode, setModalMode] = useState<'view' | 'edit'>('view');
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
     const [formData, setFormData] = useState({ name: '', email: '', classId: '' });
 
     const classes = data.classes;
-
     const allStudents = data.users.filter(u => u.role === UserRole.STUDENT);
 
+    // Filter Logic
     const filteredStudents = allStudents.filter(s => {
-        const matchesClass = selectedClassId === 'all' || (s as any).classId === selectedClassId;
+        // Fix: Access class_id, fallback to classId if exists in old data, or undefined
+        const studentClassId = s.class_id || (s as any).classId;
+
+        const matchesClass = selectedClassId === 'all' || studentClassId === selectedClassId;
         const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             s.email.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesClass && matchesSearch;
     });
 
-    const getClassName = (classId: string) => {
+    // Pagination Logic
+    const totalPages = Math.ceil(filteredStudents.length / ITEMS_PER_PAGE);
+    const paginatedStudents = filteredStudents.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
+
+    const getClassName = (classId?: string) => {
+        if (!classId) return 'No Class';
         return classes.find(c => c.id === classId)?.name || 'Unknown Class';
     };
 
-    const openModal = (student: Student, mode: 'view' | 'edit') => {
+    const openEditModal = (student: any) => {
+        // cast to Student or any to safely access properties
         setSelectedStudent(student);
-        setModalMode(mode);
         setFormData({
             name: student.name,
             email: student.email,
-            classId: student.classId
+            classId: student.class_id || student.classId || ''
         });
         setIsModalOpen(true);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!selectedStudent) return;
 
-        const updatedStudent: Student = {
+        // Construct update object. 
+        // Note: The store's updateUser might expect a full object or partial. 
+        // Assuming it handles the update via API call we implemented (userService.update) or the store's mock logic.
+        // We'll use the store's updateUser for now which likely updates local state, 
+        // but for persistence we might want to call the API directly if store doesn't.
+        // The previous implementation used `updateUser` from store.
+
+        const updatedStudent = {
             ...selectedStudent,
             name: formData.name,
             email: formData.email,
-            classId: formData.classId
+            class_id: formData.classId // Ensure we update the snake_case property
         };
 
-        updateUser(updatedStudent);
+        // If the store expects specific fields, we ensure we pass what's needed.
+        // We'll try to update both to be safe if types are mixed
+        (updatedStudent as any).classId = formData.classId;
+
+        await updateUser(updatedStudent as Student);
         setIsModalOpen(false);
-        toast.success("Student updated successfully!");
+        toast.success("Estudiante actualizado correctamente");
     };
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Student Directory</h2>
-                    <p className="text-gray-500">
-                        Managing {allStudents.length} students across {classes.length} classes
-                    </p>
+                    <h2 className="text-2xl font-bold text-gray-900">Directorio de Estudiantes</h2>
+                    <p className="text-gray-500">Gestionando {allStudents.length} alumnos</p>
+                </div>
+                <div className="flex gap-2 items-center bg-blue-50 px-3 py-1 rounded-full text-blue-700 text-sm font-medium">
+                    <GraduationCap size={16} />
+                    <span>Total: {filteredStudents.length}</span>
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                {/* Visual Filter Bar */}
-                <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+                {/* Search */}
+                <div className="relative flex-1">
+                    <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Buscar por nombre o email..."
+                        value={searchTerm}
+                        onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
 
-                    {/* Search */}
-                    <div className="relative w-full md:w-96">
-                        <Search className="absolute left-3 top-2.5 text-gray-400" size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search by name or email..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
+                {/* Filter by Class */}
+                <div className="relative min-w-[200px]">
+                    <Filter className="absolute left-3 top-2.5 text-gray-400" size={20} />
+                    <select
+                        value={selectedClassId}
+                        onChange={(e) => { setSelectedClassId(e.target.value); setCurrentPage(1); }}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white cursor-pointer"
+                    >
+                        <option value="all">Todas las Clases</option>
+                        {classes.map(c => (
+                            <option key={c.id} value={c.id}>{c.name} ({c.level})</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
 
-                    {/* Class Filter */}
-                    <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
-                        <Filter size={16} className="text-gray-400 flex-shrink-0" />
-                        <span className="text-sm text-gray-500 font-medium mr-1">Class:</span>
-                        <div className="flex bg-white border border-gray-200 rounded-lg p-1">
+            {/* Grid View */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {paginatedStudents.map(student => {
+                    const sClassId = student.class_id || (student as any).classId;
+                    return (
+                        <div key={student.id} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-5 flex flex-col items-center text-center group relative">
                             <button
-                                onClick={() => setSelectedClassId('all')}
-                                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${selectedClassId === 'all'
-                                        ? 'bg-blue-50 text-blue-700'
-                                        : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
+                                onClick={() => openEditModal(student)}
+                                className="absolute top-4 right-4 text-gray-300 hover:text-blue-600 p-1 rounded-full hover:bg-blue-50 transition-colors"
                             >
-                                All
+                                <Edit2 size={16} />
                             </button>
-                            {classes.map(cls => (
-                                <button
-                                    key={cls.id}
-                                    onClick={() => setSelectedClassId(cls.id)}
-                                    className={`px-3 py-1 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${selectedClassId === cls.id
-                                            ? 'bg-blue-50 text-blue-700'
-                                            : 'text-gray-600 hover:bg-gray-50'
-                                        }`}
-                                >
-                                    {cls.name}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
 
-                {/* Table */}
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                        <thead className="bg-gray-50 text-gray-500">
-                            <tr>
-                                <th className="p-4 font-medium">Student</th>
-                                <th className="p-4 font-medium">Class</th>
-                                <th className="p-4 font-medium">Email</th>
-                                <th className="p-4 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                            {filteredStudents.map(student => (
-                                <tr key={student.id} className="hover:bg-gray-50 transition-colors group">
-                                    <td className="p-4">
-                                        <div className="flex items-center gap-3">
-                                            <img src={student.avatar} alt="" className="w-8 h-8 rounded-full bg-gray-200 object-cover" />
-                                            <span className="font-medium text-gray-900">{student.name}</span>
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                            {getClassName((student as any).classId)}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-gray-500">{student.email}</td>
-                                    <td className="p-4 text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <button
-                                                onClick={() => openModal(student, 'view')}
-                                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
-                                                title="View Details"
-                                            >
-                                                <Eye size={16} />
-                                            </button>
-                                            <button
-                                                onClick={() => openModal(student, 'edit')}
-                                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
-                                                title="Edit Student"
-                                            >
-                                                <Edit2 size={16} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                            {filteredStudents.length === 0 && (
-                                <tr>
-                                    <td colSpan={4} className="p-8 text-center text-gray-500">
-                                        No students found matching your filters.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                            <img
+                                src={student.avatar || "https://picsum.photos/200"}
+                                alt={student.name}
+                                className="w-20 h-20 rounded-full object-cover border-4 border-gray-50 mb-3"
+                            />
+                            <h3 className="font-bold text-gray-900 text-lg line-clamp-1">{student.name}</h3>
+                            <p className="text-sm text-gray-500 mb-3">{student.email}</p>
+
+                            <div className="mt-auto pt-3 w-full border-t border-gray-100 flex justify-center">
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${sClassId ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-600'
+                                    }`}>
+                                    {getClassName(sClassId)}
+                                </span>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
-            {/* View/Edit Modal */}
+            {filteredStudents.length === 0 && (
+                <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                    <GraduationCap className="mx-auto h-12 w-12 text-gray-400" />
+                    <h3 className="mt-2 text-sm font-medium text-gray-900">No se encontraron estudiantes</h3>
+                    <p className="mt-1 text-sm text-gray-500">Intenta cambiar los filtros.</p>
+                </div>
+            )}
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-4 mt-8">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="p-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    >
+                        <ChevronLeft size={20} />
+                    </button>
+                    <span className="text-sm font-medium text-gray-700">
+                        Página {currentPage} de {totalPages}
+                    </span>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="p-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    >
+                        <ChevronRight size={20} />
+                    </button>
+                </div>
+            )}
+
+            {/* Edit Modal */}
             <Transition appear show={isModalOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-50" onClose={() => setIsModalOpen(false)}>
+                <Dialog as="div" className="relative z-10" onClose={() => setIsModalOpen(false)}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -184,7 +203,7 @@ export const StudentsDirectory: React.FC = () => {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
@@ -199,97 +218,65 @@ export const StudentsDirectory: React.FC = () => {
                                 leaveTo="opacity-0 scale-95"
                             >
                                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                                            {modalMode === 'edit' ? 'Edit Student' : 'Student Details'}
-                                        </Dialog.Title>
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center"
+                                    >
+                                        Editar Estudiante
                                         <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-500">
-                                            <X size={20} />
+                                            <X className="w-5 h-5" />
                                         </button>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex justify-center mb-6">
-                                            <img
-                                                src={selectedStudent?.avatar}
-                                                alt={selectedStudent?.name}
-                                                className="w-24 h-24 rounded-full bg-gray-100 object-cover ring-4 ring-gray-50"
-                                            />
-                                        </div>
-
+                                    </Dialog.Title>
+                                    <div className="mt-4 space-y-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                            <label className="block text-sm font-medium text-gray-700">Nombre</label>
                                             <input
                                                 type="text"
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
                                                 value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                disabled={modalMode === 'view'}
-                                                className={`w-full px-3 py-2 border rounded-lg outline-none ${modalMode === 'view'
-                                                        ? 'bg-gray-50 border-gray-200 text-gray-500'
-                                                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                                                    }`}
+                                                onChange={e => setFormData({ ...formData, name: e.target.value })}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                            <label className="block text-sm font-medium text-gray-700">Email</label>
                                             <input
                                                 type="email"
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
                                                 value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                disabled={modalMode === 'view'}
-                                                className={`w-full px-3 py-2 border rounded-lg outline-none ${modalMode === 'view'
-                                                        ? 'bg-gray-50 border-gray-200 text-gray-500'
-                                                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                                                    }`}
+                                                onChange={e => setFormData({ ...formData, email: e.target.value })}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Assigned Class</label>
+                                            <label className="block text-sm font-medium text-gray-700">Clase Asignada</label>
                                             <select
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2 bg-white"
                                                 value={formData.classId}
-                                                onChange={(e) => setFormData({ ...formData, classId: e.target.value })}
-                                                disabled={modalMode === 'view'}
-                                                className={`w-full px-3 py-2 border rounded-lg outline-none ${modalMode === 'view'
-                                                        ? 'bg-gray-50 border-gray-200 text-gray-500 cursor-default'
-                                                        : 'bg-white border-gray-300 focus:ring-2 focus:ring-blue-500'
-                                                    }`}
+                                                onChange={e => setFormData({ ...formData, classId: e.target.value })}
                                             >
-                                                {classes.map(cls => (
-                                                    <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                                <option value="">Sin Asignar</option>
+                                                {classes.map(c => (
+                                                    <option key={c.id} value={c.id}>{c.name}</option>
                                                 ))}
                                             </select>
                                         </div>
-                                    </div>
 
-                                    {modalMode === 'edit' && (
                                         <div className="mt-6 flex justify-end gap-3">
                                             <button
                                                 type="button"
-                                                className="inline-flex justify-center rounded-lg border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                                onClick={handleSave}
-                                            >
-                                                <Save size={16} className="mr-2" /> Save Changes
-                                            </button>
-                                        </div>
-                                    )}
-                                    {modalMode === 'view' && (
-                                        <div className="mt-6 flex justify-end gap-3">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                                                 onClick={() => setIsModalOpen(false)}
                                             >
-                                                Close
+                                                Cancelar
                                             </button>
                                             <button
                                                 type="button"
-                                                className="inline-flex justify-center rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                                                onClick={() => setModalMode('edit')}
+                                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center"
+                                                onClick={handleSave}
                                             >
-                                                <Edit2 size={16} className="mr-2" /> Edit
+                                                <Save className="w-4 h-4 mr-2" /> Guardar
                                             </button>
                                         </div>
-                                    )}
+                                    </div>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>

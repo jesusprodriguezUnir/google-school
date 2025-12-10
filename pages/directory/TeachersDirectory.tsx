@@ -27,9 +27,11 @@ export const TeachersDirectory: React.FC = () => {
     );
 
     const getAssignedClasses = (teacherId: string) => {
-        // Classes where they are the main tutor
-        const tutorClasses = data.classes.filter(c => c.teacher_id === teacherId);
-        return tutorClasses;
+        // Classes where they are the main tutor OR have a subject assigned
+        return data.classes.filter(c =>
+            c.teacher_id === teacherId ||
+            (c.subjects && c.subjects.some(s => s.teacher_id === teacherId))
+        );
     };
 
     const openEdit = (teacher: any) => {

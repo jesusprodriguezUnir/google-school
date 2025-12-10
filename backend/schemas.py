@@ -63,9 +63,21 @@ class ClassGroupUpdate(BaseModel):
     level: Optional[EducationLevel] = None
     teacher_id: Optional[str] = None
 
+class ClassSubjectCreate(BaseModel):
+    name: str
+    teacher_id: Optional[str] = None
+    hours_weekly: int
+
+class ClassSubjectResponse(ClassSubjectCreate):
+    id: str
+    class_id: str
+    class Config:
+        from_attributes = True
+
 class ClassGroupResponse(ClassGroupBase):
     id: str
     teacher_id: Optional[str] = None
+    subjects: List[ClassSubjectResponse] = []
 
     class Config:
         from_attributes = True
@@ -141,16 +153,7 @@ class AvailabilityResponse(AvailabilityCreate):
     class Config:
         from_attributes = True
 
-class ClassSubjectCreate(BaseModel):
-    name: str
-    teacher_id: Optional[str] = None
-    hours_weekly: int
 
-class ClassSubjectResponse(ClassSubjectCreate):
-    id: str
-    class_id: str
-    class Config:
-        from_attributes = True
 
 class ScheduleSlotCreate(BaseModel):
     class_id: str
