@@ -1,7 +1,6 @@
-import json
 from sqlalchemy.orm import Session
 from backend.database import SessionLocal, engine
-from backend.models import Base, SubjectTemplate, EducationLevel
+from backend.models import SubjectTemplate, EducationLevel
 
 # Full JSON provided by user
 CURRICULUM_DATA = {

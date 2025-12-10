@@ -1,6 +1,3 @@
-import json
-from sqlalchemy.orm import Session
-from sqlalchemy import text
 from backend.database import SessionLocal
 from backend.models import SubjectTemplate, EducationLevel
 

@@ -1,6 +1,5 @@
 from backend.database import SessionLocal
 from backend.models import SubjectTemplate, EducationLevel
-from sqlalchemy import text
 
 db = SessionLocal()
 try:

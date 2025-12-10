@@ -35,7 +35,6 @@ const App: React.FC = () => {
           case 'parents': return <ParentsDirectory />;
           case 'classes': return <ClassManagement />;
           case 'invoices': return <RevenueDirectory initialTab="pending" />;
-          case 'invoices': return <RevenueDirectory initialTab="pending" />;
           case 'financials': return <RevenueDirectory initialTab="collected" />;
           case 'schema': return <DatabaseSchemaPage />;
           default: return <PrincipalDashboard onNavigate={setActivePage} />;

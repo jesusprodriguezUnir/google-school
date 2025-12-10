@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { useApp } from '../../services/store';
 import { UserRole, InvoiceStatus } from '../../types';
-import { Search, Mail, Users, Filter, ChevronLeft, ChevronRight, X, Phone, MapPin, CreditCard, GraduationCap } from 'lucide-react';
+import { Search, Mail, Users, Filter, ChevronLeft, ChevronRight, X, Phone } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
 
 export const ParentsDirectory: React.FC = () => {

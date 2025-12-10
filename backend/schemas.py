@@ -110,8 +110,6 @@ class StudentUpdate(BaseModel):
     class_id: Optional[str] = None
     avatar: Optional[str] = None
 
-    avatar: Optional[str] = None
-
 class UserUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None

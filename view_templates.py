@@ -1,5 +1,5 @@
 from backend.database import SessionLocal
-from backend.models import SubjectTemplate, EducationLevel
+from backend.models import SubjectTemplate
 
 db = SessionLocal()
 try:

@@ -44,7 +44,6 @@ export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, on
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Class Name</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Level</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Teacher</th>
-                            <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Teacher</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Students</th>
                             <th className="p-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
@@ -68,7 +67,6 @@ export const ClassesWidget: React.FC<ClassesWidgetProps> = ({ classes, users, on
                                     <td className="p-4 text-gray-600 text-right">
                                         <div className="flex items-center justify-end gap-1">
                                             <Users size={14} className="text-gray-400" />
-                                            <span>{getStudentCount(cls.id)}</span>
                                             <span>{getStudentCount(cls.id)}</span>
                                         </div>
                                     </td>

@@ -1,9 +1,7 @@
-from sqlalchemy.orm import Session
 from .database import SessionLocal, engine, Base
 from . import models
-from .models import User, UserRole, ClassGroup, EducationLevel, ClassSubject, ScheduleSlot, TeacherAvailability
+from .models import User, UserRole, ClassGroup, EducationLevel, ClassSubject, ScheduleSlot
 import uuid
-from datetime import datetime
 import random
 
 def get_db():
