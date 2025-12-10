@@ -84,4 +84,20 @@ export const classService = {
     }
 };
 
+export const curriculumService = {
+    getTemplates: async (level?: string) => {
+        const params = level ? { level } : {};
+        const response = await api.get('/curriculum/templates', { params });
+        return response.data;
+    },
+    createTemplate: async (data: { name: string; default_hours: number; education_level: string }) => {
+        const response = await api.post('/curriculum/templates', data);
+        return response.data;
+    },
+    deleteTemplate: async (id: string) => {
+        const response = await api.delete(`/curriculum/templates/${id}`);
+        return response.data;
+    }
+};
+
 export default api;

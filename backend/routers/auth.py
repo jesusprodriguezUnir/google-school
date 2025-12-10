@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from typing import List
 from datetime import timedelta
 from jose import JWTError, jwt
 from .. import models, schemas, auth_utils, database
@@ -79,3 +80,8 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 @router.get("/users/me", response_model=schemas.UserResponse)
 async def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
+
+@router.get("/teachers", response_model=List[schemas.UserResponse])
+async def read_all_teachers(db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    teachers = db.query(models.User).filter(models.User.role == models.UserRole.TEACHER).all()
+    return teachers

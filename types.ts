@@ -93,3 +93,28 @@ export interface SchoolData {
   invoices: Invoice[];
   announcements: Announcement[];
 }
+
+export interface TeacherAvailability {
+  id: string;
+  teacher_id: string;
+  day_of_week: string; // MON, TUE ...
+  slot_index: number;
+}
+
+export interface ClassSubject {
+  id: string;
+  class_id: string;
+  name: string;
+  teacher_id?: string;
+  hours_weekly: number;
+}
+
+export interface ScheduleSlot {
+  id: string;
+  class_id: string;
+  subject_id: string;
+  day_of_week: string;
+  slot_index: number;
+  subject_name?: string;
+  teacher_name?: string;
+}

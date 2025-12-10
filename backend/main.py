@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import os
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import auth, api, classes, students
+from .routers import auth, api, classes, students, schedule, curriculum
 from .database import engine, Base
 
 # Create tables on startup
@@ -17,6 +17,8 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
 ]
 
 app.add_middleware(
@@ -32,6 +34,8 @@ app.include_router(auth.router)
 app.include_router(api.router, prefix="/api")
 app.include_router(classes.router)
 app.include_router(students.router)
+app.include_router(schedule.router)
+app.include_router(curriculum.router)
 
 @app.get("/")
 def read_root():

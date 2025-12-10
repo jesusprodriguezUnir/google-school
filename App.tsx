@@ -10,7 +10,7 @@ import { StudentsDirectory } from './pages/directory/StudentsDirectory';
 import { TeachersDirectory } from './pages/directory/TeachersDirectory';
 import { ParentsDirectory } from './pages/directory/ParentsDirectory';
 import { RevenueDirectory } from './pages/directory/RevenueDirectory';
-import { ClassManagement } from './pages/ClassManagement';
+import ClassManagement from './pages/ClassManagement';
 import { UserRole } from './types';
 
 const App: React.FC = () => {
