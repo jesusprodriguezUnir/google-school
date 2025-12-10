@@ -60,7 +60,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage, onNavigate
               <NavItem id="students" label="Students" icon={Users} />
               <NavItem id="teachers" label="Teachers" icon={GraduationCap} />
               <NavItem id="parents" label="Parents" icon={HeartHandshake} />
-              <NavItem id="schema" label="System DB" icon={Database} />
             </>
           )}
 

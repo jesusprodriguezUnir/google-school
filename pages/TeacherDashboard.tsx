@@ -11,8 +11,8 @@ export const TeacherDashboard: React.FC = () => {
 
   if (!currentUser || currentUser.role !== UserRole.TEACHER) return null;
 
-  // Get classes assigned to this teacher (Backend now filters this)
-  const myClasses = data.classes;
+  // Get classes assigned to this teacher
+  const myClasses = data.classes.filter(c => c.teacherId === currentUser.id);
 
   // Default to first class if not selected
   if (!selectedClassId && myClasses.length > 0) {
@@ -23,22 +23,22 @@ export const TeacherDashboard: React.FC = () => {
 
   // Get students in the selected class
   const students = data.users.filter(u =>
-    u.role === UserRole.STUDENT && u.class_id === selectedClassId
+    u.role === UserRole.STUDENT && (u as any).classId === selectedClassId
   );
 
   // Get grades for these students
   const classGrades = data.grades.filter(g =>
-    students.some(s => s.id === g.student_id)
+    students.some(s => s.id === g.studentId)
   );
 
   const handleScoreChange = (studentId: string, subject: string, newScore: string) => {
     const numScore = Math.min(10, Math.max(0, Number(newScore)));
     // Find existing grade to keep ID stable or create new ID
-    const existingGrade = data.grades.find(g => g.student_id === studentId && g.subject === subject);
+    const existingGrade = data.grades.find(g => g.studentId === studentId && g.subject === subject);
 
     const gradePayload: Grade = {
       id: existingGrade ? existingGrade.id : `new_${studentId}_${subject}`,
-      student_id: studentId,
+      studentId,
       subject,
       score: numScore,
       feedback: existingGrade ? existingGrade.feedback : '',
@@ -68,8 +68,8 @@ export const TeacherDashboard: React.FC = () => {
                 key={cls.id}
                 onClick={() => setSelectedClassId(cls.id)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${selectedClassId === cls.id
-                  ? 'bg-gray-900 text-white shadow-sm'
-                  : 'text-gray-600 hover:bg-gray-50'
+                    ? 'bg-gray-900 text-white shadow-sm'
+                    : 'text-gray-600 hover:bg-gray-50'
                   }`}
               >
                 {cls.name}
